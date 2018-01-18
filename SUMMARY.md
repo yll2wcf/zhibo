@@ -15,7 +15,7 @@
 * [第二章 nginx-rtmp-module 基础篇](chapter2.md)
   * [2.1 nginx-rtmp-module 介绍](chapter2/21.md)
   * [2.2 nginx-rtmp-module 介绍](chapter2/22.md)
-  * [2.3 NTM的前生今世](chapter2/23.md)
+  * [2.3 NRM的前生今世](chapter2/23.md)
   * [2.4 RTMP协议与HLS协议](chapter2/24.md)
     * [2.4.1 RTMP协议](chapter2/24/241.md)
     * [2.4.2 HLS协议](chapter2/24/242.md)
