@@ -13,7 +13,7 @@
     * [1.5.4 配置文件详解](chapter1/15/154.md)
   * [1.6 nginx模块化体系](chapter1/16.md)
 * [第二章 nginx-rtmp-module 基础篇](chapter2.md)
-  * [2.1 nginx-rtmp-module 介绍](chapter2/21.md)
+  * [2.1 直播现状](chapter2/21.md)
   * [2.2 nginx-rtmp-module 介绍](chapter2/22.md)
   * [2.3 NRM的前生今世](chapter2/23.md)
   * [2.4 RTMP协议与HLS协议](chapter2/24.md)
