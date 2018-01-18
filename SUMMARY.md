@@ -38,4 +38,7 @@
     * [4.2.2 ffmpeg的安装](chapter4/42/422.md)
     * [4.2.3 ffmpeg配置](chapter4/42/423.md)
     * [4.2.4 ffmpeg与直播的应用](chapter4/42/414.md)
+* [第五章 安卓SDK](chapter5.md)
+* [第六章 IOS SDK](chapter6.md)
+* [第七章 案例](chapter7.md)
 
