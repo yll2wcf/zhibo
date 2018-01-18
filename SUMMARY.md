@@ -37,7 +37,6 @@
     * [3.5.1 通知类事件](chapter3/35/351.md)
     * [3.5.2 触发类事件](chapter3/35/352.md)
     * [3.5.3 事件的应用](chapter3/35/353.md)
-  * 3.6
 * [第四章 nginx-rtmp-module 应用篇](chapter4.md)
   * [4.1 Shell命令在NTM中的使用](chapter4/41.md)
     * [4.1.1 何为Shell](chapter4/41/411.md)
