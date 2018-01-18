@@ -40,5 +40,6 @@
     * [4.2.4 ffmpeg与直播的应用](chapter4/42/414.md)
 * [第五章 安卓SDK](chapter5.md)
 * [第六章 IOS SDK](chapter6.md)
-* [第七章 案例](chapter7.md)
+* [第七章 WEB SDK](chapter7.md)
+* [第八章 应用案例](chapter7.md)
 
