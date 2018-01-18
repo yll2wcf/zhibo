@@ -41,5 +41,5 @@
 * [第五章 安卓SDK](chapter5.md)
 * [第六章 IOS SDK](chapter6.md)
 * [第七章 WEB SDK](chapter7.md)
-* [第八章 应用案例](chapter7.md)
+* [第八章 应用案例](chapter8.md)
 
