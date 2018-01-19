@@ -9,6 +9,7 @@
     * [1.3.2 安装依赖包和库](chapter1/13/132.md)
     * [1.3.3 编译安装nginx](chapter1/13/133.md)
     * [1.3.4 配置防火墙](chapter1/13/134.md)
+    * [1.3.5 加入自启动及系统服务](chapter1/13/135.md)
   * [1.4 nginx指令详解](chapter1/14.md)
   * [1.5 nginx配置系统](chapter1/15.md)
     * [1.5.1 配置指令](chapter1/15/151.md)
