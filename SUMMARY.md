@@ -66,7 +66,9 @@
     * [7.2.2 netStream对象](chapter7/72/722.md)
     * [7.2.3 获取视频流](chapter7/72/723.md)
     * [7.2.4 简单实例](chapter7/72/724-jian-dan-shi-li.md)
-  * [7.3](chapter7/73.md)
+  * [7.3 SWFObject](chapter7/73.md)
+    * [7.3.1 为什么选择SWFObject](chapter7/73/731.md)
+    * [7.3.2 静态方法嵌入Flash Player](chapter7/73/732-jing-tai-fang-fa-qian-ru-flash-player.md)
 * [第八章 应用案例](chapter8.md)
   * [8.1 一个完整的直播室](chapter8/81.md)
 
