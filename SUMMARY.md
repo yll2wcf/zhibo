@@ -23,7 +23,7 @@
   * [2.3 RTMP协议与HLS协议](chapter2/23.md)
     * [2.3.1 RTMP协议](chapter2/23/231.md)
     * [2.3.2 HLS协议](chapter2/23/232.md)
-  * [2.4 NTM的搭建](chapter2/24.md)
+  * [2.4 NRM的搭建](chapter2/24.md)
   * [2.5 你的第一个直播](chapter2/25.md)
 * [第三章 nginx-rtmp-module 进阶篇](chapter3.md)
   * [3.1 如何使NTM支持HLS协议直播](chapter3/31.md)
