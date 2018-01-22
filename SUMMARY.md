@@ -60,7 +60,7 @@
   * [6.2 HLS协议的处理](chapter6/62.md)
   * [6.3 播放器](chapter6/63.md)
 * [第七章 WEB SDK](chapter7.md)
-  * [7.1 本地音视频获取](chapter7/71.md)
+* [7.1 flash](chapter7/71.md)
   * [7.2 RTMP协议的处理](chapter7/72.md)
   * [7.3 Flash播放器的使用](chapter7/73.md)
 * [第八章 应用案例](chapter8.md)
