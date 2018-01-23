@@ -92,8 +92,9 @@
     * [7.5.12 视频画面平滑优化处理](chapter7/75/7512-shi-pin-hua-mian-ping-hua-you-hua-chu-li.md)
     * [7.5.13 播放接口调用](chapter7/75/7513.md)
     * [7.5.14 实例](chapter7/75/7514.md)
-  * 7.6
-    * 7.6.1
+  * [7.6 应用](chapter7/76.md)
+    * [7.6.1 推流端](chapter7/76/761.md)
+    * [7.6.2 拉流端](chapter7/76/762.md)
 * [第八章 应用案例](chapter8.md)
   * [8.1 一个完整的直播室](chapter8/81.md)
 
