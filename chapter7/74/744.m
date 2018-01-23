@@ -1,0 +1,66 @@
+Flex代码：
+ <?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="initApp()" 
+layout="absolute" width="200" height="160">
+<mx:Script>
+ <![CDATA[
+  import mx.controls.Alert;
+  public function sayHelloFromFlex(message:String):String{
+   Alert.show(message);
+   var str:String = "Echo from Flex: "+ message; 
+   return str;
+  }
+  public function initApp():void { 
+   Security.allowDomain("*");
+   Security.allowInsecureDomain("*");
+   ExternalInterface.addCallback("sayHelloFromFlex",sayHelloFromFlex);
+  }
+  public function invokeJsFunc():void {
+   var str:String = ExternalInterface.call("sayHelloFromJs","Hello,Javascript.");
+   Alert.show(str);
+  }     
+ ]]>
+</mx:Script>
+<mx:Button x="39" y="68" label="Invoke JS Function" click="invokeJsFunc()"/>
+</mx:Application>
+Html代码：
+<html>
+  <head> </head>
+  <body scroll="no">
+  <script>
+  function sayHelloFromJs(value){
+        alert(value);
+        return "Echo from Js: " + value;
+    }
+ 
+  function invokeFlexFunc(){
+        var message = "Hello,Flex.";
+        var str = getSWFObject("MyFlexApps").sayHelloFromFlex(message);
+        alert(str);
+    }
+  function getSWFObject(movieName)
+  {
+   if(document[movieName])
+   {
+    return document[movieName];
+   }else if(window[movieName]){
+    return window[movieName]; 
+   }else if(document.embeds && document.embeds[movieName]){
+    return document.embeds[movieName];
+   }else{
+    return document.getElementById(movieName);
+   }
+  }
+</script>
+  <object type='application/x-shockwave-flash'
+ data='FlexAndJs.swf' width='200' height='160'
+ name='test' id='MyFlexApps'>
+ <param name='allowScriptAccess' value='always' />
+ <param name='movie' value='FlexAndJs.swf' />
+ <param name='quality' value='high' />
+ <param name='scale' value='noScale' />
+ <param name='wmode' value='transparent' />
+  </object>
+  <input type="button" value="InvokeFlexFunction" onclick="invokeFlexFunc()"/>
+  </body>
+</html>

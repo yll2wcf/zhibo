@@ -1,0 +1,19 @@
+点开视频播放页面后首先初始化视频播放的画面，根据接收的用户参数初始化视频画面的大小。
+  对象定义：
+import mx.events.SliderEvent; //滑块事件命名空间引用
+
+private var nc:NetConnection; //媒体连接对象
+private var ns:NetStream;     //网络流对象
+private var metaDataObj:Object = {}; //媒体的元数据信息
+private var video:Video ;          //视频对象
+
+ 初始化方法如下：
+private function init():void
+{    
+    videoUrl = parameters.videoUrl;
+    videoWidth = parameters.videoWidth;
+    videoHeight = parameters.videoHeight                                           
+    video = new Video(videoWidth,videoHeight);
+    video.smoothing = true;//画面平滑处理，去掉全屏后的水纹以提高画面清晰度
+    uic.addChild(video); //将视频对象添加到页面         
+}
