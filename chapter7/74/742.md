@@ -1,0 +1,26 @@
+Flex端需要注册和页面交互的Javascript方法。通过ExternalInterface的addCallback()函数实现，
+addCallback()函数的原型为addCallback(js_function:String, flex_function:Function)，第一个参数
+js_function是Javascript可以调用的方法名称，第二个参数flex_function是Javascript回调的Flex方法.
+举个简单的例子：
+Flex端：
+public function sayHelloFromFlex(message:String):String
+{
+     Alert.show(message); //Javascript端传过来的消息
+     var str:String = "echo from flex:" + message;
+     return str; //返回给Flex端的消息
+}
+public function initApp()
+{
+      ExternalInterface.addCallback("sayHelloFromFlex",sayHelloFromFlex);//注册与页面交互的方法
+}
+Javascript端：
+在javascript端首先要获取swf对象的引用，我们假设我们已经拿到了该引用，为MyFlexApp.
+swf的获取将在下面专门介绍。
+<script language = 'Javacript' charset = 'uft-8'>
+function testFlexFunc()
+{
+     var strMessage = MyFlexApp.sayHelloFromFlex("Hello, Flex");
+     alert(strMessage); 
+}
+</script>
+<button onclick="testFlexFunc()"> TestFlexFunc</button>
