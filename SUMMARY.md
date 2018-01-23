@@ -61,7 +61,7 @@
   * [6.3 播放器](chapter6/63.md)
 * [第七章 WEB SDK](chapter7.md)
   * [7.1 Adobe Flash Player](chapter7/71.md)
-    * [7.1.1 何为flash](chapter7/71/711.md)
+    * [7.1.1 flash的功能](chapter7/71/711.md)
     * [7.1.2 为什么要使用flash](chapter7/71/712.md)
   * [7.2 ActionScript & Flex](chapter7/72.md)
     * [7.2.1 使用ActionScript组件](chapter7/72/721.md)
