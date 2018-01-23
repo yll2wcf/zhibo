@@ -1,0 +1,14 @@
+视频播放时当前时间和总时间是以秒为单位的，比如180s的文件，当前播放到一半显示90s，需要按时间格式来显示才友好，另外还有音量的值是介于0到1之间的某个值，也需要按百分比来显示。代码片段如下：
+ //格式化时间 
+private function formatTime(time:Number):String
+{ 
+    var min:Number = Math.floor(time/60); 
+    var sec:Number = Math.floor(time%60); 
+    var timeResult:String = (min < 10 ? "0"+min.toString() : min.toString()) + ":" + (sec == 10 ? "0"+sec.toString() : sec.toString()); 
+    return timeResult; 
+} 
+//声音slider格式化 
+private function SoundTipFormat(data:Number):String
+{ 
+    return  (data*100).toFixed(0).toString()+"%"; //拖动声音进度条时显示百分比音量
+}
