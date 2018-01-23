@@ -76,7 +76,7 @@
     * [7.4.1 Flex调用Javascript函数](chapter7/74/741.md)
     * [7.4.2 Javascript调用Flex函数](chapter7/74/742.md)
     * [7.4.3 Javascript端获取swf对象的引用](chapter7/74/743.md)
-    * [7.4.4 实例](chapter7/74/744.m)
+    * [7.4.4 实例](chapter7/74/744.md)
   * [7.5 播放器的制作](chapter7/75.md)
     * [7.5.1 主要功能](chapter7/75/751.md)
     * [7.5.2 相关变量](chapter7/75/752.md)
