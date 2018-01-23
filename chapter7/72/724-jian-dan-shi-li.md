@@ -1,0 +1,229 @@
+package {
+
+import flash.display.MovieClip;
+import flash.external.ExternalInterface;
+import flash.net.NetConnection;
+import flash.events.NetStatusEvent;
+import flash.net.NetStream;
+import flash.media.Video;
+import flash.media.Camera;
+import flash.media.Microphone;
+
+//import flash.media.H264Profile;
+//import flash.media.H264VideoStreamSettings;
+
+public class RtmpStreamer extends MovieClip {
+
+    internal var nc:NetConnection;
+    internal var ns:NetStream;
+    internal var nsPlayer:NetStream;
+    internal var vidPlayer:Video;
+    internal var cam:Camera;
+    internal var mic:Microphone;
+
+    internal var _camWidth:int = 640;
+    internal var _camHeight:int = 480;
+    internal var _camFps:int = 15;
+    internal var _camFrameInterval:int = 25;
+    internal var _camBandwidth:int = 200000;
+    internal var _camQuality:int = 90;
+
+    internal var _micQuality:int = 9;
+    internal var _micRate:int = 44;
+
+    internal var _screenWidth:int = 320;
+    internal var _screenHeight:int = 240;
+    internal var _screenX:int = 0;
+    internal var _screenY:int = 0;
+
+
+    public function RtmpStreamer() {
+        ExternalInterface.addCallback("setScreenSize", setScreenSize);
+        ExternalInterface.addCallback("setScreenPosition", setScreenPosition);
+        ExternalInterface.addCallback("setCamMode", setCamMode);
+        ExternalInterface.addCallback("setCamFrameInterval", setCamFrameInterval);
+        ExternalInterface.addCallback("setCamQuality", setCamQuality);
+
+        ExternalInterface.addCallback("setMicQuality", setMicQuality);
+        ExternalInterface.addCallback("setMicRate", setMicRate);
+
+        ExternalInterface.addCallback("publish", publish);
+        ExternalInterface.addCallback("play", playVideo);
+        ExternalInterface.addCallback("disconnect", disconnect);
+
+        ExternalInterface.call("setSWFIsReady");
+    }
+
+    public function setScreenSize(width:int, height:int):void {
+        _screenWidth = width;
+        _screenHeight = height;
+    }
+
+    public function setScreenPosition(x:int, y:int):void {
+        _screenX = x;
+        _screenY = y;
+    }
+
+    public function setCamMode(width:int, height:int, fps:int):void {
+        _camWidth = width;
+        _camHeight = height;
+        _camFps = fps;
+    }
+
+    public function setCamFrameInterval(frameInterval:int):void {
+        _camFrameInterval = frameInterval;
+    }
+
+    public function setCamQuality(bandwidth:int, quality:int):void {
+        _camBandwidth = bandwidth;
+        _camQuality = quality;
+    }
+
+    public function setMicQuality(quality:int):void {
+        _micQuality = quality;
+    }
+
+    public function setMicRate(rate:int):void {
+        _micRate = rate;
+    }
+
+    public function publish(url:String, name:String):void {
+        this.connect(url, name, function (name:String):void {
+            publishCamera(name);
+            displayPublishingVideo();
+        });
+    }
+
+    public function playVideo(url:String, name:String):void {
+        this.connect(url, name, function (name:String):void {
+            displayPlaybackVideo(name);
+        });
+    }
+
+    public function disconnect():void {
+        nc.close();
+    }
+
+    private function connect(url:String, name:String, callback:Function):void {
+        nc = new NetConnection();
+        nc.addEventListener(NetStatusEvent.NET_STATUS, function (event:NetStatusEvent):void {
+            ExternalInterface.call("console.log", "try to connect to " + url);
+            ExternalInterface.call("console.log", event.info.code);
+            if (event.info.code == "NetConnection.Connect.Success") {
+                callback(name);
+            }
+        });
+        nc.connect(url);
+    }
+
+    private function publishCamera(name:String):void {
+//        Cam
+
+        cam = Camera.getCamera();
+
+        /**
+         * public function setMode(width:int, height:int, fps:Number, favorArea:Boolean = true):void
+         *  width:int — 请求的捕获宽度，以像素为单位。默认值是160。
+         *  height:int — 请求的捕获高度，以像素为单位。默认值是120。
+         *  fps:Number — 请求捕获帧速率，每秒帧数。默认值是15。
+         */
+        cam.setMode(_camWidth, _camHeight, _camFps);
+
+        /**
+         * public function setKeyFrameInterval(keyFrameInterval:int):void
+         * 传输完整的视频帧的数量（称为帧）而不是被视频压缩算法的插值。
+         * 默认值是15，这意味着每第十五帧是关键帧。值为1意味着每一帧是关键帧。
+         * 允许的值为1到300。
+         */
+        cam.setKeyFrameInterval(_camFrameInterval);
+
+        /**
+         * public function setQuality(bandwidth:int, quality:int):void
+         * bandwidth:int — 指定当前传出视频馈送可以使用的最大带宽量，以字节为单位（BPS）。
+         *    为了指定视频可以使用所需的带宽来保持质量的值，带宽通过0。
+         *   默认值是16384。
+         * quality:int — 一个整数，指定所需的图片质量级别，由压缩量决定。
+         *     应用于每个视频帧。可接受的值范围从1（最低质量，最大压缩）到100。
+         *    （最高质量，无压缩）。指定图片质量可以根据需要而变化，以避免超出带宽。
+         */
+        cam.setQuality(_camBandwidth, _camQuality);
+
+        /**
+         * public function setProfileLevel(profile:String, level:String):void
+         * 设置视频编码的配置文件和级别。
+         * 轮廓可能值h264profile.baseline和h264profile.main。默认值是h264profile.baseline。
+         * 其他值将被忽略并导致错误。
+         * 支持的级别是1、1b、1.1、1.2、1.3、2、2.1、2.2、3、3.1、3.2、4、4.1、4.2、、5和5.1。
+         * 如果分辨率和帧速率要求，可能会增加。
+         */
+//            var h264setting:H264VideoStreamSettings = new H264VideoStreamSettings();
+//            h264setting.setProfileLevel(H264Profile.MAIN, 4);
+
+
+//            Mic
+
+        mic = Microphone.getMicrophone();
+
+        /*
+         * 编码后的语音质量采用Speex的时候。可能的值是从0到10。默认值是6。
+         * 更高的数字表示更高的质量，但需要更多的带宽，如下表所示。
+         * 这是上市的比特率值代表净比特率，不包括打包的开销。
+         * ------------------------------------------
+         * Quality value | Required bit rate (kbps)
+         *-------------------------------------------
+         *      0        |       3.95
+         *      1        |       5.75
+         *      2        |       7.75
+         *      3        |       9.80
+         *      4        |       12.8
+         *      5        |       16.8
+         *      6        |       20.6
+         *      7        |       23.8
+         *      8        |       27.8
+         *      9        |       34.2
+         *      10       |       42.2
+         *-------------------------------------------
+         */
+        mic.encodeQuality = _micQuality;
+
+        /* 麦克风捕捉声音的速率，在千赫中。可接受的值分别为5, 8, 11、22和44。默认值是8千赫。
+         * 如果声音捕获设备支持此值。否则，默认值是8千赫以上的下一个可用捕获电平。
+         * 通常是11千赫。
+         *
+         */
+        mic.rate = _micRate;
+
+
+        ns = new NetStream(nc);
+//        H.264 Setting
+//        ns.videoStreamSettings = h264setting;
+        ns.attachCamera(cam);
+        ns.attachAudio(mic);
+        ns.publish(name, "live");
+    }
+
+    private function displayPublishingVideo():void {
+        vidPlayer = getPlayer();
+        vidPlayer.attachCamera(cam);
+        addChild(vidPlayer);
+    }
+
+    private function displayPlaybackVideo(name:String):void {
+        nsPlayer = new NetStream(nc);
+        nsPlayer.play(name);
+        vidPlayer = getPlayer();
+        vidPlayer.attachNetStream(nsPlayer);
+        addChild(vidPlayer);
+    }
+
+    private function getPlayer():Video {
+        vidPlayer = new Video(_screenWidth, _screenHeight);
+        vidPlayer.x = _screenX;
+        vidPlayer.y = _screenY;
+
+        return vidPlayer;
+    }
+
+}
+
+}
