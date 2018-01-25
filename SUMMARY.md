@@ -33,8 +33,6 @@
 * [第三章 nginx-rtmp-module 进阶篇](chapter3.md)
   * [3.1 如何使NTM支持HLS协议直播](chapter3/31.md)
   * [3.2 推拉流与串流码](chapter3/32.md)
-    * [3.2.1 推拉流](chapter3/32/321.md)
-    * [3.2.2 串流码](chapter3/32/322.md)
   * [3.3 control控制器](chapter3/33.md)
     * [3.3.1 录制](chapter3/33/331.md)
     * [3.3.2 删除一个用户](chapter3/33/332.md)
