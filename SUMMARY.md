@@ -22,7 +22,7 @@
     * [1.5.3 配置实例](chapter1/15/153.md)
   * [1.6 nginx模块化体系](chapter1/16.md)
     * [1.6.1 模块概述](chapter1/16/161.md)
-    * [1.6.2](chapter1/16/162.md)
+    * [1.6.2 模块分类](chapter1/16/162.md)
 * [第二章 nginx-rtmp-module 基础篇](chapter2.md)
   * [2.1 直播现状](chapter2/21.md)
   * [2.2 nginx-rtmp-module 介绍](chapter2/22.md)
