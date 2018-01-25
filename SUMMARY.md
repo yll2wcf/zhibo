@@ -34,7 +34,7 @@
   * [3.1 如何使NTM支持HLS协议直播](chapter3/31.md)
   * [3.2 推拉流与串流码](chapter3/32.md)
   * [3.3 control控制器](chapter3/33.md)
-    * [3.3.1 录制](chapter3/33/331.md)
+    * [3.3.1 Record](chapter3/33/331.md)
     * [3.3.2 删除一个用户](chapter3/33/332.md)
     * [3.3.3 重置一个用户](chapter3/33/333.md)
   * [3.4 可视化查看当前连接与网络使用](chapter3/34.md)
