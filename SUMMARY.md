@@ -66,7 +66,6 @@
   * [7.1 Adobe Flash Player](chapter7/71.md)
     * [7.1.1 何为flash](chapter7/71/711.md)
     * [7.1.2 为什么要使用flash](chapter7/71/712.md)
-    * 7.2.1
   * [7.2 ActionScript & Flex](chapter7/72.md)
     * [7.2.1 Flex环境的搭建](chapter7/72/721.md)
     * [7.2.2 Flex项目的创建](chapter7/72/722.md)
