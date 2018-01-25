@@ -71,7 +71,7 @@
   * [7.2 ActionScript & Flex](chapter7/72.md)
     * [7.2.1 使用ActionScript组件](chapter7/72/721.md)
     * [7.2.2 netStream对象](chapter7/72/722.md)
-    * [7.2.3 获取视频流](chapter7/72/723.md)
+    * [7.2.3 获取摄像头](chapter7/72/723.md)
     * [7.2.4 简单实例](chapter7/72/724.md)
   * [7.3 SWFObject](chapter7/73.md)
     * [7.3.1 为什么选择SWFObject](chapter7/73/731.md)
