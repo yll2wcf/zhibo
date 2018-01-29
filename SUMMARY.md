@@ -54,7 +54,7 @@
     * [4.2.3 ffmpeg配置](chapter4/42/423.md)
     * [4.2.4 ffmpeg与直播的应用](chapter4/42/414.md)
   * [4.3 多码率视频](chapter4/43.md)
-  * [4.4 其他设置](chapter4/44.md)
+  * [4.4 配置列表](chapter4/44.md)
 * [第五章 安卓SDK](chapter5.md)
   * [5.1 协议库的选择](chapter5/51.md)
   * [5.2 本地音视频获取](chapter5/52.md)
