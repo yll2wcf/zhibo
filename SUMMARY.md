@@ -68,7 +68,7 @@
     * [6.2.1 GPUImage](chapter6/62/621-gpuimage.md)
     * [6.2.2 LFLiveKit](chapter6/62/622-lflivekit.md)
     * [6.2.3 ijkplayer](chapter6/62/623-ijkplayer.md)
-  * [6.3 播放器](chapter6/63.md)
+  * [6.3 iOS解决方案](chapter6/63.md)
 * [第七章 WEB SDK](chapter7.md)
   * [7.1 Adobe Flash Player](chapter7/71.md)
     * [7.1.1 何为flash](chapter7/71/711.md)
