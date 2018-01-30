@@ -64,7 +64,7 @@
   * [5.5 小结](55-xiao-jie.md)
 * [第六章 IOS SDK](chapter6.md)
   * [6.1 本地音视频获取](chapter6/61.md)
-  * [6.2 HLS协议的处理](chapter6/62.md)
+  * [6.2 SDK的选择和前期准备](chapter6/62.md)
     * [6.2.1 GPUImage](chapter6/62/621-gpuimage.md)
   * [6.3 播放器](chapter6/63.md)
 * [第七章 WEB SDK](chapter7.md)
