@@ -11,7 +11,7 @@ GPUImage采用链式方式来处理画面,通过addTarget:方法为链条添加�
 2.使用Cocoapods导入。
 
 ####GPUImage的基础类
-
+由于GPUImage功能相当全面，所以不是所有的类都会用到，这里给大家简单的介绍下每个类的功能，方便大家今后做深入的研究。我们视频直播用的比较多的就是美颜和滤镜，主要用到GPUImageFilter和GPUImageVideoCamera等。
 
 <pre><code>
 #import "GLProgram.h"
