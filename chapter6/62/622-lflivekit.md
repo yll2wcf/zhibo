@@ -36,6 +36,7 @@ Import <LFLiveKit/LFLiveKit.h>
 
 ####LFLiveKit的简单使用
 
+Objective-C
 <pre><code>
 - (LFLiveSession*)session {
     if (!_session) {
@@ -61,6 +62,40 @@ Import <LFLiveKit/LFLiveKit.h>
 - (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug*)debugInfo;
 - (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode;
 </code></pre>
+
+Swift
+<pre><code>
+// import LFLiveKit in [ProjectName]-Bridging-Header.h
+#import <LFLiveKit.h> 
+
+//MARK: - Getters and Setters
+lazy var session: LFLiveSession = {
+	let audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration()
+	let videoConfiguration = LFLiveVideoConfiguration.defaultConfigurationForQuality(LFLiveVideoQuality.Low3, landscape: false)
+	let session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
+	    
+	session?.delegate = self
+	session?.preView = self.view
+	return session!
+}()
+
+//MARK: - Event
+func startLive() -> Void { 
+	let stream = LFLiveStreamInfo()
+	stream.url = "your server rtmp url";
+	session.startLive(stream)
+}
+
+func stopLive() -> Void {
+	session.stopLive()
+}
+
+//MARK: - Callback
+func liveSession(session: LFLiveSession?, debugInfo: LFLiveDebug?) 
+func liveSession(session: LFLiveSession?, errorCode: LFLiveSocketErrorCode)
+func liveSession(session: LFLiveSession?, liveStateDidChange state: LFLiveState)
+</code></pre>
+
 
 
 
