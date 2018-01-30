@@ -107,7 +107,7 @@
   * [7.6 应用](chapter7/76.md)
     * [7.6.1 推流端](chapter7/76/761.md)
     * [7.6.2 拉流端](chapter7/76/762.md)
-    * [7.6.3 总结](chapter7/76/763.md)
+  * [总结](chapter7/zong-jie.md)
 * [第八章 应用案例](chapter8.md)
   * [8.1 一个完整的直播室](chapter8/81.md)
   * [8.2 架构分析](chapter8/82.md)
