@@ -66,6 +66,8 @@
   * [6.1 本地音视频获取](chapter6/61.md)
   * [6.2 SDK的选择和前期准备](chapter6/62.md)
     * [6.2.1 GPUImage](chapter6/62/621-gpuimage.md)
+    * [6.2.2 LFLiveKit](chapter6/62/622-lflivekit.md)
+    * [6.2.3 ijkplayer](chapter6/62/623-ijkplayer.md)
   * [6.3 播放器](chapter6/63.md)
 * [第七章 WEB SDK](chapter7.md)
   * [7.1 Adobe Flash Player](chapter7/71.md)
