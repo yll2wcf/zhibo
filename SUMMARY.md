@@ -63,7 +63,7 @@
   * [5.4 Android解决方案](chapter5/54.md)
   * [5.5 小结](55-xiao-jie.md)
 * [第六章 IOS SDK](chapter6.md)
-  * [6.1 本地音视频获取](chapter6/61.md)
+  * [6.1 iOS视频直播流程介绍](chapter6/61.md)
   * [6.2 SDK的选择和前期准备](chapter6/62.md)
     * [6.2.1 GPUImage](chapter6/62/621-gpuimage.md)
     * [6.2.2 LFLiveKit](chapter6/62/622-lflivekit.md)
