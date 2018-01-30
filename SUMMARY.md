@@ -71,7 +71,7 @@
     * [6.3.2框架导入](chapter6/63/632kuang-jia-dao-ru.md)
     * [6.3.3初始化页面](chapter6/63/633chu-shi-hua-ye-mian.md)
   * [6.4 小结](chapter6/64-xiao-jie.md)
-* [第七章 WEB SDK](chapter7.md)
+* [第七章 WEB 解决方案](chapter7.md)
   * [7.1 Adobe Flash Player](chapter7/71.md)
     * [7.1.1 何为flash](chapter7/71/711.md)
     * [7.1.2 为什么要使用flash](chapter7/71/712.md)
