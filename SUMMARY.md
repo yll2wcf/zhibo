@@ -58,7 +58,7 @@
   * [4.4 其他设置](chapter4/44.md)
 * [第五章 安卓SDK](chapter5.md)
   * [5.1 移动直播的前景](chapter5/51.md)
-  * [5.2 yasea框架介绍](chapter5/52.md)
+  * [5.2 Yasea框架介绍](chapter5/52.md)
   * [5.3 IJKplayer框架介绍](chapter5/53.md)
   * [5.4 Android解决方案](chapter5/54.md)
   * [5.5 小结](55-xiao-jie.md)
