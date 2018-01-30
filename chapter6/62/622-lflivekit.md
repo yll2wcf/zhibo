@@ -12,6 +12,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 pod 'LFLiveKit'
 ```
+3.引入头文件
+Import <LFLiveKit/LFLiveKit.h>
 
 ####LFLiveKit的基础架构
 
