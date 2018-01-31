@@ -26,4 +26,28 @@ cd ios
 
 ####ijkplayer的集成
 集成 ijkplayer 有两种方法:一种方法是按照IJKMediaDemo工程中那样, 直接导入工程IJKMediaPlayer.xcodeproj, 这种方法比较初级，也不方便携带，我们在这里不多做介绍了。第二种方法是把ijkplayer打包成framework导入工程中使用.这种方法比较利于后期移植，方便使用。下面我们就介绍如何把ijkplayer打成framework包。
+1.首先打开工程IJKMediaPlayer.xcodeproj
+2.点击Edit Scheme，设置scheme，改成Release，如下图所示：
 
+![](/assets/6-2-6.png)
+
+3.设置好scheme后分别用真机和模拟器进行编译。
+4.编译完成后右键点击IJKMediaFramework.framework进入Finder，进入Finder后可以看到真机和模拟器连个版本编译的结果，如下图所示：
+
+![](/assets/6-2-7.png)
+
+5.合并两个版本的framework，打开终端，进行合并，输入命令行，命令行格式如下：
+
+
+```
+lipo -create "真机版本framework路径" "模拟器版本framework路径" -output "合并后的文件路径"
+```
+
+**注意：我们合并的framework是/Release-iphoneos/IJKMediaFramework.framework/IJKMediaFramework和/Release-iphonesimulator/IJKMediaFramework.framework/IJKMediaFramework这两个文件**
+
+6.合并成功后，需要用合并完的IJKMediaFramework替换掉原来其中一个版本的IJKMediaFramework生成新的Framework，如下图所示：
+
+![](/assets/6-2-8.png)
+
+7。至此，替换过新的framework后的IJKMediaFramework.framework文件就是我们需要的框架了, 可以复制出来, 导入我们的工程使用.
+8.工程中除了要导入新的IJKMediaFramework.framework，还要导入别的依赖库：libz.tbd libbz2.tbd AudioToolbox.framework AVFoundation.framework CoreGraphics.framework CoreMedia.framework MediaPlayer.framework MobileCoreServices.framework OpenGLES.framework QuartzCore.framework UIKit.framework VideoToolbox.framework
