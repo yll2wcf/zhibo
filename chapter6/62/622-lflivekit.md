@@ -16,7 +16,7 @@ pod 'LFLiveKit'
 Import <LFLiveKit/LFLiveKit.h>
 
 **注意：如果导入LFLiveKit无需再导入GPUImage，LFLiveKit已经为我们集成了GPUImage。**
-
+![](/assets/6-2-4.png)
 
 ####LFLiveKit的基础架构
 

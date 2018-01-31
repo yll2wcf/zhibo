@@ -11,4 +11,5 @@ ijkplayer 是一个基于 FFmpeg 的轻量级 Android/iOS 视频播放器。实�
 打开IJKMediaDemo，编译
 会提示'libavformat/avformat.h' file not found的错误，这是因为libavformat是ffmpeg中的库，而ijkplayer是基于ffmpeg这个库的，因此需要导入ffmpeg。
 
-使用终端，cd 到ijkplayer-master目录中，输入./init-ios.sh运行脚本文件，
+使用终端，cd 到ijkplayer-master目录中，输入./init-ios.sh运行脚本文件，init-ios.sh脚本的作用：下载ffmpeg源码，如果在前期准备中已经编译了ffmpeg，可以直接到ffmpeg中导入需要的文件。
+执行完脚本后，就会发现ijkplayer中有ffmpeg了
