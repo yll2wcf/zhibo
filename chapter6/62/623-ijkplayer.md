@@ -49,5 +49,7 @@ lipo -create "真机版本framework路径" "模拟器版本framework路径" -out
 
 ![](/assets/6-2-8.png)
 
-7。至此，替换过新的framework后的IJKMediaFramework.framework文件就是我们需要的框架了, 可以复制出来, 导入我们的工程使用.
-8.工程中除了要导入新的IJKMediaFramework.framework，还要导入别的依赖库：libz.tbd libbz2.tbd AudioToolbox.framework AVFoundation.framework CoreGraphics.framework CoreMedia.framework MediaPlayer.framework MobileCoreServices.framework OpenGLES.framework QuartzCore.framework UIKit.framework VideoToolbox.framework
+7。至此，替换过新的framework后的IJKMediaFramework.framework文件就是我们需要的框架了, 可以复制出来, 导入我们的工程使用.我们在本书中也会提供制作好的IJKMediaFramework.framework。
+
+8.工程中除了要导入新的IJKMediaFramework.framework，还要导入别的依赖库：libz.tbd libbz2.tbd libstdc++.tbd AudioToolbox.framework AVFoundation.framework CoreGraphics.framework CoreMedia.framework MediaPlayer.framework MobileCoreServices.framework OpenGLES.framework QuartzCore.framework UIKit.framework VideoToolbox.framework
+
