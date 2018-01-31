@@ -15,6 +15,9 @@ pod 'LFLiveKit'
 3.引入头文件
 Import <LFLiveKit/LFLiveKit.h>
 
+**注意：如果导入LFLiveKit无需再导入GPUImage，LFLiveKit已经为我们集成了GPUImage。**
+
+
 ####LFLiveKit的基础架构
 
 | 类名 | 说明 |
