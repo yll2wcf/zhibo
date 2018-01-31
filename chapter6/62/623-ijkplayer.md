@@ -2,7 +2,7 @@
 ijkplayer 是一个基于 FFmpeg 的轻量级 Android/iOS 视频播放器。实现了跨平台功能，API易于集成；编译配置可裁剪，支持硬件加速解码，更加省电，目前比较火的美拍和斗鱼APP都在使用这个框架。
 
 ####ijkplayer的导入
-下载ijkplayer 
+下载ijkplayer https://github.com/Bilibili/ijkplayer
 在解压好的ijkplayer中，找到IJKMediaDemo。
 
 
