@@ -53,3 +53,24 @@ lipo -create "真机版本framework路径" "模拟器版本framework路径" -out
 
 8.工程中除了要导入新的IJKMediaFramework.framework，还要导入别的依赖库：libz.tbd libbz2.tbd libstdc++.tbd AudioToolbox.framework AVFoundation.framework CoreGraphics.framework CoreMedia.framework MediaPlayer.framework MobileCoreServices.framework OpenGLES.framework QuartzCore.framework UIKit.framework VideoToolbox.framework
 
+####ijkplayer的简单使用
+<pre><code>
+    IJKFFOptions *options = [IJKFFOptions optionsByDefault];
+    [options setPlayerOptionIntValue:1  forKey:@"videotoolbox"];
+    // 帧速率(fps) （可以改，确认非标准桢率会导致音画不同步，所以只能设定为15或者29.97）
+    [options setPlayerOptionIntValue:29.97 forKey:@"r"];
+    // -vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推
+    [options setPlayerOptionIntValue:512 forKey:@"vol"];
+    IJKFFMoviePlayerController *moviePlayer = [[IJKFFMoviePlayerController alloc] initWithContentURLString:flv withOptions:options];
+    moviePlayer.view.frame = self.contentView.bounds;
+    // 填充fill
+    moviePlayer.scalingMode = IJKMPMovieScalingModeAspectFill;
+    // 设置自动播放(必须设置为NO, 防止自动播放, 才能更好的控制直播的状态)
+    moviePlayer.shouldAutoplay = NO;
+    // 默认不显示
+    moviePlayer.shouldShowHudView = NO;
+    [self.contentView insertSubview:moviePlayer.view atIndex:0];
+    [moviePlayer prepareToPlay];
+    self.moviePlayer = moviePlayer;
+</code></pre>
+
