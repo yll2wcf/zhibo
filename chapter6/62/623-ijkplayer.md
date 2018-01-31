@@ -23,6 +23,6 @@ cd ios
 ./compile-ffmpeg.sh clean 是删除一些文件和文件夹，为编译ffmpeg.sh做准备。
 ./compile-ffmpeg.sh all 是真正的编译各个平台的ffmpeg库，并生成所以平台的通用库.
 这是我们的ffmpeg已经彻底编译成功，如下图所示：
-
+![](/assets/6-2-5.png)
 
 
