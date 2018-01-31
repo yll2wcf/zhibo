@@ -1,5 +1,5 @@
 ### 6.2.2 LFLiveKit
-LFLiveKit框架是优酷土豆旗下实现直播推流的开源框架，利用H264和AAC硬编码，支持GPUImage美化，rtmp传输推流，弱网络丢帧，可以动态切换速率。
+LFLiveKit框架是实现直播推流的开源框架，利用H264和AAC硬编码，支持GPUImage美化，rtmp传输推流，弱网络丢帧，展性非常强，支持动态切换码率功能。
 
 ####LFLiveKit的导入
 
