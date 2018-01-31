@@ -4,12 +4,12 @@ GPUImage是由Brad Larson创建的，基于GPU的图像处理库。GPUImage封�
 ####GPUImage处理画面原理
 GPUImage采用链式方式来处理画面,通过addTarget:方法为链条添加每个环节的对象，处理完一个target,就会把上一个环节处理好的图像数据传递下一个target去处理，称为GPUImage处理链。
 
-####GPUImage的导入
+####GPUImage的集成
 使用GPUImage需要事先在项目中添加以下库：CoreMedia、CoreVideo、OpenGLES、AVFoundation、QuartzCore。
 导入GPUImage有两种方式：
-1.通过 https://github.com/BradLarson/GPUImage 下载，手动导入。
-2.使用Cocoapods导入。
-3.引入头文件。
+  1.通过 https://github.com/BradLarson/GPUImage 下载，手动导入。
+  2.使用Cocoapods导入。
+  3.引入头文件。
 
 ####GPUImage的基础类
 由于GPUImage功能相当全面，所以不是所有的类都会用到，这里给大家简单的介绍下每个类的功能，方便大家今后做深入的研究。我们视频直播用的比较多的就是美颜和滤镜，主要用到GPUImageFilter和GPUImageVideoCamera等。
