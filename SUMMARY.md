@@ -112,7 +112,6 @@
   * [8.1 一个完整的直播室](chapter8/81.md)
   * [8.2 架构分析](chapter8/82.md)
     * [8.2.1 分布式服务与Zookeeper](chapter8/82/821.md)
-    * [8.2.2 dubbo调用与配置](chapter8/82/822.md)
-    * [8.2.3 分布式存储与Hadoop](chapter8/82/823.md)
-    * 8.2.4 分布式消息系统与Kafka
+    * [8.2.2 分布式存储与HDFS](chapter8/82/823.md)
+    * 8.2.3 分布式消息系统与Kafka
 
