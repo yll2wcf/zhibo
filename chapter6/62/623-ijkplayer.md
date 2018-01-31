@@ -25,3 +25,5 @@ cd ios
 
 
 ####ijkplayer的集成
+集成 ijkplayer 有两种方法:一种方法是按照IJKMediaDemo工程中那样, 直接导入工程IJKMediaPlayer.xcodeproj, 这种方法比较初级，也不方便携带，我们在这里不多做介绍了。第二种方法是把ijkplayer打包成framework导入工程中使用.这种方法比较利于后期移植，方便使用。下面我们就介绍如何把ijkplayer打成framework包。
+
