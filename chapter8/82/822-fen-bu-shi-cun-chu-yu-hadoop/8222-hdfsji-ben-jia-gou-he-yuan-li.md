@@ -50,4 +50,15 @@ HDFS最小存储单元
 与Datanode交互，读取或写入数据
 通过API或者管理命令来管理HDFS
 
+HDFS为什么不适合存储小文件
+元数据信息存储在namenode内存中，内存大小有限，也就是namenode存储block数目有限
+一个block元信息消耗大约150byte内存
+存储1亿个block，大约需要20G内存
+如果一个文件大小为10K，则1亿个文件大小仅有1TB，却消耗namenode20GB内存
+
+HDFS高可用原理
+
+
+
+
 
