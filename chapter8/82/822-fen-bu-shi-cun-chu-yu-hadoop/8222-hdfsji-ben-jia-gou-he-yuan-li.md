@@ -61,9 +61,9 @@ HDFS高可用原理
 图
 
 1）元数据同步
-当有写请求发送到active namenode（NN1）时，
+当有写请求发送到active namenode（NN1）时，NN1首先将写请求写入本地磁盘，然后同步阻塞写入JN（JournalNode）的edit。JournalNode是一组独立部署的服务器，专门用来存储NN的edit日志。与zookeeper类似，JN一般部署奇数台，当有过半数机器完成写操作即返回成功。NN1完成本地和JN的写操作后，会更新内存edit，同时与内存中的fsimage镜像合并，定期将合并后的fsimage写入磁盘（持久化）。Standby Namenode（NN2）定期同步JN的edit，之后与NN1一样在内存中合并fsimage和edit并持久化。这样就完成了元数据的同步。
 2）主备切换
-
+主备切换利用到了我们之前讲的zookeeper。
 
 
 
