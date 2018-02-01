@@ -115,5 +115,9 @@
   * [8.2 架构分析](chapter8/82.md)
     * [8.2.1 分布式服务与Zookeeper](chapter8/82/821.md)
     * [8.2.2 分布式存储与Hadoop](chapter8/82/822-fen-bu-shi-cun-chu-yu-hadoop.md)
+      * [8.2.2.1 HDFS概述](chapter8/82/822-fen-bu-shi-cun-chu-yu-hadoop/8221-hdfsgai-shu.md)
+      * [8.2.2.2 HDFS基本架构和原理](chapter8/82/822-fen-bu-shi-cun-chu-yu-hadoop/8222-hdfsji-ben-jia-gou-he-yuan-li.md)
+      * [8.2.2.3 YARN基本架构和原理](chapter8/82/822-fen-bu-shi-cun-chu-yu-hadoop/8223-yarnji-ben-jia-gou-he-yuan-li.md)
+      * [8.2.2.4 Hadoop集群搭建](chapter8/82/822-fen-bu-shi-cun-chu-yu-hadoop/8224-hadoopji-qun-da-jian.md)
     * [8.2.3 分布式消息队列与Kafka](chapter8/82/823-fen-bu-shi-xiao-xi-dui-lie-yu-kafka.md)
 
