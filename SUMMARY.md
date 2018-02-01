@@ -113,4 +113,7 @@
 * [第八章 应用案例](chapter8.md)
   * [8.1 一个完整的直播室](chapter8/81.md)
   * [8.2 架构分析](chapter8/82.md)
+    * [8.2.1 分布式服务与Zookeeper](chapter8/82/821.md)
+    * [8.2.2 分布式存储与Hadoop](chapter8/82/822-fen-bu-shi-cun-chu-yu-hadoop.md)
+    * [8.2.3 分布式消息队列与Kafka](chapter8/82/823-fen-bu-shi-xiao-xi-dui-lie-yu-kafka.md)
 
