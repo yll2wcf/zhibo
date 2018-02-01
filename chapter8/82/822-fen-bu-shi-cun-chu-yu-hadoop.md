@@ -69,6 +69,21 @@ fsimage：文件系统元数据检查点镜像文件，保存了文件系统中�
 namenode内存中保存一份最新的镜像信息 镜像内容=fsimage+edits
 namenode定期将内存中的新增的edits与fsimage合并保存到磁盘
 
-4、Datanode数据节点  
+4、Datanode  
+Slave工作节点，可以启动多个。轻松的增加datanode来扩容。  
+存储数据和数据校验和，来查看数据块是否损坏。如果损坏会向其他datanode读取。  
+执行客户端的读写请求
+通过心跳机制定期向namenode汇报运行状态和所有快列表信息
+在集群启动时datanode向namenode提供存储的block块列表信息  
+
+5、Block数据块
+文件写入到HDFS会被切分成若干个Block块
+数据块大小固定，默认大小128M，可自定义修改
+HDFS最小存储单元
+若一个块的大小小于设置的数据块大小，则不会占用整个块的空间
+默认情况下每个Block有三个副本
+
+
+
 
 
