@@ -1,4 +1,5 @@
-##本章小结
+##本章小结  
+
 简单梳理一下
 - RTMP:Adobe面向Flash的流媒体协议。
 - HLS:Apple面向Apple产品的流媒体协议。
