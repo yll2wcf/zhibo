@@ -7,7 +7,7 @@
   * [1.3 安装nginx](chapter1/13.md)
     * [1.3.1 选择安装版本](chapter1/13/131.md)
     * [1.3.2 安装依赖包和库](chapter1/13/132.md)
-    * [1.3.3 编译安装nginx](chapter1/13/133.md)
+    * [1.3.3 配置防火墙](chapter1/13/133.md)
     * [1.3.4 加入自启动和系统服务](chapter1/13/134.md)
     * [1.3.5 加入系统变量](chapter1/13/135.md)
   * [1.4 nginx命令行](chapter1/14.md)
