@@ -24,7 +24,7 @@
   * [1.6 nginx模块化体系](chapter1/16.md)
     * [1.6.1 模块概述](chapter1/16/161.md)
     * [1.6.2 模块分类](chapter1/16/162.md)
-  * [总结](chapter1/zong-jie.md)
+  * [本章小结](chapter1/zong-jie.md)
 * [第二章 nginx-rtmp-module 基础篇](chapter2.md)
   * [2.1 直播现状](chapter2/21.md)
   * [2.2 nginx-rtmp-module 介绍](chapter2/22.md)
