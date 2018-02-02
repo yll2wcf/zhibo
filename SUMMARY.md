@@ -3,7 +3,7 @@
 * [前言](README.md)
 * [第一章 Nginx](chapter1.md)
   * [1.1 Nginx概述](chapter1/11.md)
-  * [1.2 为什么选择nginx](chapter1/12.md)
+  * [1.2 为什么选择Nginx](chapter1/12.md)
   * [1.3 安装nginx](chapter1/13.md)
     * [1.3.1 选择安装版本](chapter1/13/131.md)
     * [1.3.2 编译安装nginx](chapter1/13/132.md)
