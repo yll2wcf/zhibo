@@ -69,7 +69,7 @@
   * [6.6 iOS 实战](chapter6/66.md)
     * [6.6.1主要功能](chapter6/66/661zhu-yao-gong-neng.md)
     * [6.6.2框架导入](chapter6/66/662kuang-jia-dao-ru.md)
-    * [6.6.3初始化页面](chapter6/66/663chu-shi-hua-ye-mian.md)
+    * [6.6.3滤镜](chapter6/66/663chu-shi-hua-ye-mian.md)
     * [6.6.4 推流](chapter6/66/664-tui-liu.md)
     * [6.6.5拉流](chapter6/66/665la-liu.md)
   * [本章小结](chapter6/67.md)
