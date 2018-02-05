@@ -21,7 +21,7 @@
     * [1.5.3 配置文件结构](chapter1/15/153.md)
     * [1.5.4 配置变量](chapter1/15/154.md)
     * [1.5.5 配置实例](chapter1/15/155.md)
-  * [1.6 nginx模块化体系](chapter1/16.md)
+  * [1.6 Nginx模块化体系](chapter1/16.md)
     * [1.6.1 模块概述](chapter1/16/161.md)
     * [1.6.2 模块分类](chapter1/16/162.md)
   * [本章小结](chapter1/zong-jie.md)
