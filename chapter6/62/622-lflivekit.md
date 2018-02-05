@@ -1,4 +1,4 @@
-### 6.2.2 LFLiveKit
+## 6.4 LFLiveKit框架介绍
 LFLiveKit框架是实现直播推流的开源框架，利用H264和AAC硬编码，支持GPUImage美化，rtmp传输推流，弱网络丢帧，展性非常强，支持动态切换码率功能。
 
 ####LFLiveKit的集成

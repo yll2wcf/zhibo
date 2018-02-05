@@ -1,4 +1,4 @@
-###6.2.1 GPUImage
+##6.3 GPUImage框架介绍
 GPUImage是由Brad Larson创建的，基于GPU的图像处理库。GPUImage封装了OpenGL ES的复杂的代码，并用极其简单的接口以很快的速度处理图像。
 
 ####GPUImage处理画面原理
