@@ -22,5 +22,7 @@ Zookeeper是一个开源的针对大型分布式系统的可靠协调系统，�
 ![](/assets/Zookeeper架构.png)
 图4-14  
 下面我们依据架构图介绍一下Zookeeper的几个核心概念，这些概念有助于读者更深入的了解Zookeeper。  
+#### 角色
+
 
 
