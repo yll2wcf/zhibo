@@ -63,9 +63,9 @@
   * [5.3 IJKplayer框架介绍](chapter5/53.md)
   * [5.4 Android 实战](chapter5/54.md)
     * [5.4.1主要功能](chapter5/54/541zhu-yao-gong-neng.md)
-    * 5.4.2框架导入
+    * [5.4.2框架导入](chapter5/54/542kuang-jia-dao-ru.md)
     * [5.4.3滤镜](chapter5/54/543lv-jing.md)
-    * 5.4.4推流
+    * [5.4.4推流](chapter5/54/544tui-liu.md)
     * 5.4.5拉流
   * [本章小结](55-xiao-jie.md)
 * [第六章 iOS 解决方案](chapter6.md)
