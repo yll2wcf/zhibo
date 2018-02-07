@@ -51,7 +51,6 @@
   * [4.2 常用配置信息](chapter3/35.md)
   * [4.3 直播架构分析](chapter8/82.md)
     * [4.3.1 分布式系统与Zookeeper](chapter8/82/821.md)
-      * [4.3.1.2 Zookeeper简介](chapter8/82/821/4312-zookeeperjian-jie.md)
       * [4.3.1.3 Zookeeper应用](chapter8/82/821/4313-zookeeperying-yong.md)
     * [4.3.2 分布式存储与Hadoop](chapter8/82/822-fen-bu-shi-cun-chu-yu-hadoop.md)
     * [4.3.3 分布式消息队列与Kafka](chapter8/82/823-fen-bu-shi-xiao-xi-dui-lie-yu-kafka.md)
