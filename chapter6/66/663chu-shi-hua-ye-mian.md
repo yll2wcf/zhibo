@@ -74,3 +74,69 @@ GPUImageVideoCamera 摄像头用于实时拍摄视频GPUImageStillCamera 摄像
 GPUImageFilter：就是用来接收源图像，通过自定义的顶点、片元着色器来渲染新的图像，并在绘制完成后通知响应链的下一个对象。GPUImageFramebuffer：就是用来管理纹理缓存的格式与读写帧缓存的buffer。
 **3.final target(处理后的视频、图片)**
 GPUImageView,GPUImageMovieWriter最终输入目标，响应链的终点，显示图片或者视频。
+
+我们实现美颜主要是两个方面：磨皮、美白。
+* 磨皮(GPUImageBilateralFilter)：本质就是让像素点模糊，可以使用高斯模糊，但是可能导致边缘会不清晰，用双边滤波(Bilateral Filter) ，有针对性的模糊像素点，能保证边缘不被模糊。
+* 美白(GPUImageBrightnessFilter)：本质就是提高亮度。
+这两个组合使用就会达到我们要的美颜效果。代码如下：
+
+
+```
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    // 创建视频源
+    // SessionPreset:屏幕分辨率，AVCaptureSessionPresetHigh会自适应高分辨率
+    // cameraPosition:摄像头方向
+    GPUImageVideoCamera *videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPresetHigh cameraPosition:AVCaptureDevicePositionFront];
+     videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+    _videoCamera = videoCamera;
+
+    // 创建最终输出View
+    GPUImageView *captureVideoPreview = [[GPUImageView alloc] initWithFrame:self.view.bounds];
+    [self.view insertSubview:captureVideoPreview atIndex:0];
+    
+    // 创建滤镜：磨皮和美白，这个就是我们组合滤镜，称为滤镜组，
+    GPUImageFilterGroup *groupFilter = [[GPUImageFilterGroup alloc] init];
+    
+    // 磨皮滤镜
+    GPUImageBilateralFilter *bilateralFilter = [[GPUImageBilateralFilter alloc] init];
+    [groupFilter addTarget:bilateralFilter];
+    _bilateralFilter = bilateralFilter;
+    
+    // 美白滤镜
+    GPUImageBrightnessFilter *brightnessFilter = [[GPUImageBrightnessFilter alloc] init];
+    [groupFilter addTarget:brightnessFilter];
+    _brightnessFilter = brightnessFilter;
+    
+    // 设置滤镜组链
+    [bilateralFilter addTarget:brightnessFilter];
+    [groupFilter setInitialFilters:@[bilateralFilter]];
+    groupFilter.terminalFilter = brightnessFilter;
+    
+    // 设置GPUImage响应链，从数据源 => 滤镜组 => 最终界面效果
+    [videoCamera addTarget:groupFilter];
+    [groupFilter addTarget:captureVideoPreview];
+    
+    // 必须调用startCameraCapture，底层才会把采集到的视频源，渲染到GPUImageView中，就可以显示了。
+    // 开始采集视频
+    [videoCamera startCameraCapture];
+}
+
+- (IBAction)brightnessFilter:(UISlider *)sender {
+    _brightnessFilter.brightness = sender.value;
+}
+
+- (IBAction)bilateralFilter:(UISlider *)sender {
+    // 值越小，磨皮效果越好
+    CGFloat maxValue = 10;
+    [_bilateralFilter setDistanceNormalizationFactor:(maxValue - sender.value)];
+}
+```
+**注意**
+* SessionPreset最好使用AVCaptureSessionPresetHigh，会自动识别，如果用太高分辨率，设备不支持时会直接报错
+* GPUImageVideoCamera必须要强引用，否则会被销毁，不能持续采集视频.
+* 必须调用startCameraCapture，底层才会把采集到的视频源，渲染到GPUImageView中。
+* GPUImageBilateralFilter的distanceNormalizationFactor值越小，磨皮效果越好,distanceNormalizationFactor取值范围: 大于1。
+
+
