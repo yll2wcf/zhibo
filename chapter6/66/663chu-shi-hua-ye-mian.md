@@ -78,13 +78,11 @@ GPUImageView,GPUImageMovieWriter最终输入目标，响应链的终点，显示
 我们实现美颜主要是两个方面：磨皮、美白。
 * 磨皮(GPUImageBilateralFilter)：本质就是让像素点模糊，可以使用高斯模糊，但是可能导致边缘会不清晰，用双边滤波(Bilateral Filter) ，有针对性的模糊像素点，能保证边缘不被模糊。
 * 美白(GPUImageBrightnessFilter)：本质就是提高亮度。
-这两个组合使用就会达到我们要的美颜效果。代码如下：
-
+这两个组合成滤镜组链使用，就会达到我们要的美颜效果。实现代码如下：
 
 ```
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // 创建视频源
     // SessionPreset:屏幕分辨率，AVCaptureSessionPresetHigh会自适应高分辨率
     // cameraPosition:摄像头方向
