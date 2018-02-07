@@ -67,4 +67,10 @@ LFLiveKit框架中LFGPUImageBeautyFilter就是已经封装好GPUImage的类，�
 2、缓存顶点、纹理坐标数据，传送图像数据到GPU；
 3、绘制图元到特定的帧缓存；
 4、在帧缓存取出绘制的图像。
-
+在GPUImage框架中GPUImageFilter类主要负责上述的1-3步，GPUImageFramebufferz类主要负责第4步。了解了OpenGLES的处理过程，再来看看GPUImage框架处理过程，6.3节中讲过GPUImage是采用链式方法来处理画面，具体分为3个环节：source->filter->final target。
+**1.source(视频、图片源)：**
+GPUImageVideoCamera 摄像头用于实时拍摄视频GPUImageStillCamera 摄像头用于实时拍摄照片GPUImagePicture 用于处理已经拍摄好的图片GPUImageMovie 用于处理已经拍摄好的视频
+**2.filter(滤镜)**
+GPUImageFilter：就是用来接收源图像，通过自定义的顶点、片元着色器来渲染新的图像，并在绘制完成后通知响应链的下一个对象。GPUImageFramebuffer：就是用来管理纹理缓存的格式与读写帧缓存的buffer。
+**3.final target(处理后的视频、图片)**
+GPUImageView,GPUImageMovieWriter最终输入目标，响应链的终点，显示图片或者视频。
