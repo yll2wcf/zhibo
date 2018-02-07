@@ -137,4 +137,5 @@ GPUImageView,GPUImageMovieWriter最终输入目标，响应链的终点，显示
 * 必须调用startCameraCapture，底层才会把采集到的视频源，渲染到GPUImageView中。
 * GPUImageBilateralFilter的distanceNormalizationFactor值越小，磨皮效果越好,distanceNormalizationFactor取值范围: 大于1。
 
-
+**最后**
+GPUImage是相当强大的开源框架，它能实现的效果远远比美颜效果多的多，它的源码也有很好的学习价值，
