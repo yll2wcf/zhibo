@@ -1,1 +1,179 @@
 ###6.6.4推流
+我们使用LFLiveKit框架中的LFLiveSession进行推流。LFLiveSession常用属性，如下表所示：
+
+| 属性 | 类型 | 说明 || :--- | :--- | :--- || running | BOOL | 控制直播开始结束 || preView | UIView | 视频图层 || captureDevicePosition | AVCaptureDevicePosition | 摄像头方向 || beautyFace | BOOL | 美颜开关 || muted | BOOL | 静音开关 || streamInfo | LFLiveStreamInfo | 控制直播流信息 || state | LFLiveState | 直播流上传状态 || showDebugInfo | BOOL | 是否显示调试信息 || reconnectInterval | NSUInteger | 重连间隔 |
+
+实现步骤如下：
+
+####1.引用头文件和LFLiveSessionDelegate代理
+```
+#import "LFLiveKit.h"
+@interface PushFlowViewController ()<LFLiveSessionDelegate>
+```
+####2.创建变量
+```
+@property (nonatomic, strong) LFLiveDebug *debugInfo;
+@property (nonatomic, strong) LFLiveSession *session;
+```
+####3.初始化session
+```
+_session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:videoConfiguration captureType:LFLiveCaptureDefaultMask];
+_session.delegate = self;
+_session.showDebugInfo = NO;
+_session.preView = self.view;
+```
+####4.设置LFLiveVideoConfiguration
+```
+        /***   默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏 ***/
+        LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+        videoConfiguration.videoSize = CGSizeMake(360, 640);
+        videoConfiguration.videoBitRate = 800*1024;
+        videoConfiguration.videoMaxBitRate = 1000*1024;
+        videoConfiguration.videoMinBitRate = 500*1024;
+        videoConfiguration.videoFrameRate = 24;
+        videoConfiguration.videoMaxKeyframeInterval = 48;
+        videoConfiguration.outputImageOrientation = UIInterfaceOrientationPortrait;
+        videoConfiguration.autorotate = NO;
+        videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
+        _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:videoConfiguration captureType:LFLiveCaptureDefaultMask];
+        
+        /**    自己定制单声道  */
+        /*
+         LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+         audioConfiguration.numberOfChannels = 1;
+         audioConfiguration.audioBitrate = LFLiveAudioBitRate_64Kbps;
+         audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+         _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
+         */
+        
+        /**    自己定制高质量音频96K */
+        /*
+         LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+         audioConfiguration.numberOfChannels = 2;
+         audioConfiguration.audioBitrate = LFLiveAudioBitRate_96Kbps;
+         audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+         _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
+         */
+        
+        /**    自己定制高质量音频96K 分辨率设置为540*960 方向竖屏 */
+        
+        /*
+         LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+         audioConfiguration.numberOfChannels = 2;
+         audioConfiguration.audioBitrate = LFLiveAudioBitRate_96Kbps;
+         audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+         
+         LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+         videoConfiguration.videoSize = CGSizeMake(540, 960);
+         videoConfiguration.videoBitRate = 800*1024;
+         videoConfiguration.videoMaxBitRate = 1000*1024;
+         videoConfiguration.videoMinBitRate = 500*1024;
+         videoConfiguration.videoFrameRate = 24;
+         videoConfiguration.videoMaxKeyframeInterval = 48;
+         videoConfiguration.orientation = UIInterfaceOrientationPortrait;
+         videoConfiguration.sessionPreset = LFCaptureSessionPreset540x960;
+         
+         _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
+         */
+        
+        
+        /**    自己定制高质量音频128K 分辨率设置为720*1280 方向竖屏 */
+        
+        /*
+         LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+         audioConfiguration.numberOfChannels = 2;
+         audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
+         audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+         
+         LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+         videoConfiguration.videoSize = CGSizeMake(720, 1280);
+         videoConfiguration.videoBitRate = 800*1024;
+         videoConfiguration.videoMaxBitRate = 1000*1024;
+         videoConfiguration.videoMinBitRate = 500*1024;
+         videoConfiguration.videoFrameRate = 15;
+         videoConfiguration.videoMaxKeyframeInterval = 30;
+         videoConfiguration.landscape = NO;
+         videoConfiguration.sessionPreset = LFCaptureSessionPreset360x640;
+         
+         _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
+         */
+        
+        
+        /**    自己定制高质量音频128K 分辨率设置为720*1280 方向横屏  */
+        
+        /*
+         LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+         audioConfiguration.numberOfChannels = 2;
+         audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
+         audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+         
+         LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+         videoConfiguration.videoSize = CGSizeMake(1280, 720);
+         videoConfiguration.videoBitRate = 800*1024;
+         videoConfiguration.videoMaxBitRate = 1000*1024;
+         videoConfiguration.videoMinBitRate = 500*1024;
+         videoConfiguration.videoFrameRate = 15;
+         videoConfiguration.videoMaxKeyframeInterval = 30;
+         videoConfiguration.landscape = YES;
+         videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
+         
+         _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
+         */
+```
+####5.实现代理方法
+```
+/** live status changed will callback */
+- (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange:(LFLiveState)state {
+    NSLog(@"session: %@", session);
+    NSLog(@"liveStateDidChange: %ld", state);
+    switch (state) {
+        case LFLiveReady:
+            _stateLabel.text = @"未连接";
+            isRunning=NO;
+             [self.playButton setTitle:@"开始直播" forState:UIControlStateNormal];
+            break;
+        case LFLivePending:
+            _stateLabel.text = @"连接中";
+            break;
+        case LFLiveStart:
+            _stateLabel.text = @"已连接";
+            break;
+        case LFLiveError:
+            _stateLabel.text = @"连接错误";
+            isRunning=NO;
+             [self.playButton setTitle:@"开始直播" forState:UIControlStateNormal];
+            break;
+        case LFLiveStop:
+            _stateLabel.text = @"已断开";
+            isRunning=NO;
+             [self.playButton setTitle:@"开始直播" forState:UIControlStateNormal];
+            break;
+        default:
+            break;
+    }
+}
+
+/** live debug info callback */
+//直播流的信息，如果需要显示当前流量和实时码率等信息可以在这个方法里实现
+- (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug *)debugInfo {
+    NSLog(@"debugInfo uploadSpeed: %@", formatedSpeed(debugInfo.currentBandwidth, debugInfo.elapsedMilli));
+}
+
+/** callback socket errorcode */
+//连接失败
+- (void)liveSession:(nullable LFLiveSession *)session errorCode:(LFLiveSocketErrorCode)errorCode {
+    NSLog(@"errorCode: %ld", errorCode);
+    isRunning=NO;
+     [self.playButton setTitle:@"开始直播" forState:UIControlStateNormal];
+}
+```
+####6.开始直播
+```
+LFLiveStreamInfo *stream = [LFLiveStreamInfo new];
+stream.url=@"rtmp://172.26.1.92:1935/liveOnline/6000";
+[self.session startLive:stream];
+```
+####7.结束直播
+```
+[self.session stopLive];
+```
