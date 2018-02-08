@@ -18,7 +18,9 @@ HDFS不需要特别贵的机器，大型机售价非常高，动辄上百万甚�
 DataNode是HDFS中真正的数据块存储服务器。当有客户端读取文件时，先去Namenode读取文件的元信息，拿到文件blcok所在datanode的地址，然后去相应的datanode读取文件。  
 下面我们依据架构图，讲解HDFS中的几个核心概念。  
 #### Active NameNode
-在HDFS中，Active NameNode只有一个，它管理HDFS文件系统的命名空间，并持久化到磁盘中。为了快速访问，在NameNode启动时会将其加载到内存中。除了目录结构，Active NameNode还维护文件元数据信息。这些元数据信息包括文件路径、文件blcok的节点列表、block-node映射表、副本策略（默认3份）等。目录结构和文件元数据信息会被持久化到磁盘生成fsimage文件。此外，Active NameNode还在客户端读写请求时负责查询文件所属的DataNode。  
+在HDFS中，Active NameNode只有一个，它管理HDFS文件系统的命名空间，并持久化到磁盘中。为了快速访问，在NameNode启动时会将其加载到内存中。除了目录结构，Active NameNode还维护文件元数据信息。这些元数据信息包括文件路径、文件blcok的节点列表、block-node映射表、副本策略（默认3份）等。目录结构和文件元数据信息会被持久化到磁盘生成fsimage文件。此外，Active NameNode还在客户端读写请求时负责查询文件所属的DataNode。NameNode的内部结构如图4-20所示。  
+![](/assets/namenode.png)  
+图4-20  
 #### Standby NameNode
 Standby NameNode是Active NameNode的热备节点，可以有多个。它周期性同步edits编辑日志，定期合并fsimage与edits，并持久化到本地磁盘。Active NameNode故障时Standby NameNode 快速切换为新的Active NameNode。  
 #### Namenode元数据文件  
@@ -28,23 +30,15 @@ DataNode是HDFS的工作节点，可以启动多个。通过增加DataNode可以
 #### Block数据块
 文件写入到HDFS时会被切分成若干个block块，每个block块大小固定，默认为128M，可自定义修改。block块是HDFS的最小存储单元，若一文件的大小小于设置的block大小，不会占用整个块的空间，只会占据实际大小。例如， 如果一个文件大小为1M，则在HDFS中只会占用1M的空间，而不是128M。默认情况下每个Block有三个副本。  
 #### Client
-Client文件切分
-与Namenode交互获取文件元数据信息
-与Datanode交互，读取或写入数据
-通过API或者管理命令来管理HDFS
-
-
+Client负责将文件切分成block块，在读写时，它与NameNode交互获取文件元数据信息，再与相应的DataNode交互，读取或写入数据。在Client端，我们还可以通过API或者管理命令来管理HDFS。  
 ###3 HDFS高可用原理
-
-图
-
-1）元数据同步
-当有写请求发送到active namenode（NN1）时，NN1首先将写请求写入本地磁盘，然后同步阻塞写入JN（JournalNode）的edit。JournalNode是一组独立部署的服务器，专门用来存储NN的edit日志。与zookeeper类似，JN一般部署奇数台，当有过半数机器完成写操作即返回成功。NN1完成本地和JN的写操作后，会更新内存edit，同时与内存中的fsimage镜像合并，定期将合并后的fsimage写入磁盘（持久化）。Standby Namenode（NN2）定期同步JN的edit，之后与NN1一样在内存中合并fsimage和edit并持久化。在Datanode完成真正的数据块写入操作后，会定期向所有的namenode汇报数据块位置信息，这样就完成了元数据的同步。
+由于存在主备NameNode，那么它们之间的元数据信息是如何保持一致的呢？我们来看看一个客户端写请求的具体操作流程，如图4-21.  
+![](/assets/HDFS高可用原理.png)  
+图4-21
+#### 元数据同步
+当有写请求发送到Active NameNode（NN1）时，NN1首先将写请求写入本地磁盘，然后同步阻塞写入JournalNode（JN）的edit。JournalNode是一组独立部署的服务器，专门用来存储NN的edit日志。与zookeeper类似，JN一般部署奇数台，当有过半数机器完成写操作即返回成功。NN1完成本地和JN的写操作后，会更新内存edit，同时与内存中的fsimage镜像合并，定期将合并后的fsimage持久化到磁盘。Standby NameNode（NN2）会定期同步JN的edit，之后与NN1一样在内存中合并fsimage和edit并持久化。当Datanode完成真正的数据块写入操作后，会定期向所有的NameNode汇报数据块位置信息，这样就完成了元数据的同步。
 2）主备切换
 在每个namenode启动的时候，都会启动HealthMonitor和ActiveStandbyElector两个进程。ActiveStandbyElector进程就是负责主备切换的，它们会去zookeeper创建相同的临时节点，根据zookeeper的原理，只能有一个ActiveStandbyElector创建成功。创建成功的ActiveStandbyElector所属的namenode即为active namenode。创建失败的ActiveStandbyElector则会监听该临时节点。
-
-
-###4 YARN基本架构和原理
 
 
 
