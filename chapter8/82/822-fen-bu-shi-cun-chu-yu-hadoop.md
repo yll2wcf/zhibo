@@ -12,16 +12,12 @@ HDFS基于这样的一个假设：最有效的数据处理模式是一次写入�
 HDFS不需要特别贵的机器，大型机售价非常高，动辄上百万甚至上千万。HDFS可运行于普通商用机器，对小公司来说性价比是非常高的。实际应用中HDFS已经得到了工业界的广发验证，根据Hadoop官网显示，Yahoo！的Hadoop集群约有10万颗CPU，运行在4万个机器节点上。Hadoop能流行其最主要的原因是花小钱可以办大事。  
 ###2 HDFS基本架构和原理  
 先来看一下HDFS的整体架构，如图4-19。  
-![](/assets/HDFS架构.png)  
+![](/assets/HDFS架构.png)
 图4-19
-
-典型的master-slave架构
-master-NameNode 命名空间，类似linux系统的文件目录树。默认3个副本。 NameNode高可用  通过ZK选举active  
-slave-DataNode 真正的数据块存储。客户端读取文件，先去namenode读取文件元信息，拿到文件blcok所在datanode的地址。然后去datanode读取文件。  
-
-核心概念  
-
-1、Active namenode
+从图中看到，HDFS是典型的master-slave架构。master被称作NameNode，slave被称作DataNode。在NameNode的内存中保存整个系统的命名空间，类似linux系统的文件目录树。每个文件默认保存3个副本。在Hadoop2.X中，NameNode实现了高可用，即通过Zookeeper来选举active NameNode，另一个NameNode作为备用。  
+DataNode是HDFS中真正的数据块存储服务器。当有客户端读取文件时，先去Namenode读取文件的元信息，拿到文件blcok所在datanode的地址，然后去相应的datanode读取文件。  
+下面我们依据架构图，讲解HDFS中的几个核心概念。  
+#### Active NameNode
 主master（只有一个）
 管理HDFS文件系统的命名空间（永久保存在磁盘中，为了快速访问，加载到内存中 fsimage）
 维护文件元数据信息
