@@ -35,6 +35,8 @@
 
 ####4.设置IJKFFOptions
 
+* 设备参数设置
+
 ```
     IJKFFOptions *options = [IJKFFOptions optionsByDefault]; //使用默认配置
 
@@ -68,6 +70,7 @@
 
 ```
 
+* 直播设置
 
 ```
     //如果是rtsp协议，可以优先用tcp(默认是用udp)
@@ -97,13 +100,142 @@
     }
 
 ```
+####5.本地通知
+
+* 添加本地通知
+
+```
+- (void)installMovieNotificationObservers {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loadStateDidChange:)
+                                                 name:IJKMPMoviePlayerLoadStateDidChangeNotification
+                                               object:_player];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackFinish:)
+                                                 name:IJKMPMoviePlayerPlaybackDidFinishNotification
+                                               object:_player];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mediaIsPreparedToPlayDidChange:)
+                                                 name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification
+                                               object:_player];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackStateDidChange:)
+                                                 name:IJKMPMoviePlayerPlaybackStateDidChangeNotification
+                                               object:_player];
+    
+}
+```
+
+* 移除本地通知
+
+```
+- (void)removeMovieNotificationObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:IJKMPMoviePlayerLoadStateDidChangeNotification
+                                                  object:_player];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:IJKMPMoviePlayerPlaybackDidFinishNotification
+                                                  object:_player];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification
+                                                  object:_player];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:IJKMPMoviePlayerPlaybackStateDidChangeNotification
+                                                  object:_player];
+    
+}
+```
+
+* 通过通知捕获播放状态
+
+```
+- (void)loadStateDidChange:(NSNotification*)notification {
+    IJKMPMovieLoadState loadState = _player.loadState;
+    
+    if ((loadState & IJKMPMovieLoadStatePlaythroughOK) != 0) {
+        NSLog(@"LoadStateDidChange: IJKMovieLoadStatePlayThroughOK: %d\n",(int)loadState);
+    }else if ((loadState & IJKMPMovieLoadStateStalled) != 0) {
+        NSLog(@"loadStateDidChange: IJKMPMovieLoadStateStalled: %d\n", (int)loadState);
+    } else {
+        NSLog(@"loadStateDidChange: ???: %d\n", (int)loadState);
+    }
+}
+
+- (void)moviePlayBackFinish:(NSNotification*)notification {
+    int reason =[[[notification userInfo] valueForKey:IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue];
+    switch (reason) {
+        case IJKMPMovieFinishReasonPlaybackEnded:
+            NSLog(@"playbackStateDidChange: IJKMPMovieFinishReasonPlaybackEnded: %d\n", reason);
+            break;
+            
+        case IJKMPMovieFinishReasonUserExited:
+            NSLog(@"playbackStateDidChange: IJKMPMovieFinishReasonUserExited: %d\n", reason);
+            break;
+            
+        case IJKMPMovieFinishReasonPlaybackError:
+            NSLog(@"playbackStateDidChange: IJKMPMovieFinishReasonPlaybackError: %d\n", reason);
+            break;
+            
+        default:
+            NSLog(@"playbackPlayBackDidFinish: ???: %d\n", reason);
+            break;
+    }
+}
+
+- (void)mediaIsPreparedToPlayDidChange:(NSNotification*)notification {
+    NSLog(@"mediaIsPrepareToPlayDidChange\n");
+}
+
+- (void)moviePlayBackStateDidChange:(NSNotification*)notification {
+    switch (_player.playbackState) {
+        case IJKMPMoviePlaybackStateStopped:
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: stoped", (int)_player.playbackState);
+            break;
+            
+        case IJKMPMoviePlaybackStatePlaying:
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: playing", (int)_player.playbackState);
+            break;
+            
+        case IJKMPMoviePlaybackStatePaused:
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: paused", (int)_player.playbackState);
+            break;
+            
+        case IJKMPMoviePlaybackStateInterrupted:
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: interrupted", (int)_player.playbackState);
+            break;
+            
+        case IJKMPMoviePlaybackStateSeekingForward:
+        case IJKMPMoviePlaybackStateSeekingBackward: {
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: seeking", (int)_player.playbackState);
+            break;
+        }
+            
+        default: {
+            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: unknown", (int)_player.playbackState);
+            break;
+        }
+    }
+}
+```
+
+
 
 ####6.开始播放
 
 
 ```
+// 启动预播放操作
 [self.player prepareToPlay];
+// 播放
 [self.player play];
+```
+
+####7.结束播放
+
+```
+[self.player shutdown];
 ```
 
 
