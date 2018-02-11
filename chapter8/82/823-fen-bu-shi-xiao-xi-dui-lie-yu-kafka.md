@@ -40,5 +40,24 @@ Consumer Group（CG），为了加快读取速度，多个consumer可以划分�
 
 一个CG内的consumer对消息的处理逻辑是相同的，不同的CG的consumer对消息的处理逻辑不同。
 
+kafka核心概念：
+Broker：启动kafka的一个实例就是一个broker，一个kafka集群可以启动多个broker
+Topic：kafka中同一种类型数据集的名称，相当于数据库中的表，producer将同一类型的数据写入同一个topic下，consumer从同一topic消费同一类型的数据
+Partition：一个topic可以设置多个分区，相当于把一个数据集分成多份分别放到不同的分区中存储，一个topic可以有一个或者多个分区，分区内消息有序。
+Replication：副本，一个partition可以设置一个或者多个副本，副本主要保证系统能够持续不丢失的对外提供服务，提高系统的容错能力。
+Producer：消息生产者，负责向kafka中发布消息
+Consumer Group：消费者所属组，一个CG可以包含一个或多个consumer，当一个topic被一个CG消费的时候，CG内只能有一个consumer消费同一条消息，不会出现同一个CG多个consumer同时消费一条消息造成一个消息被一个CG消费多次的情况。
+Consumer：消息消费者，consumer从kafka指定的主题中拉取消息
+Zookeeper：Zookeeper在kafka集群中主要用于协调管理，kafka将元数据信息保存在Zookeeper中，通过Zookeeper管理维护整个kafka集群的动态扩展、各个Broker负载均衡、Partition Leader选举等。
+
+kafka存储
+每个partition的副本是一个目录
+Segment：段文件，kafka中最小数据存储单位，一个partition包含多个segment文件，每个segment以message在partition中的起始偏移量命名，以log结尾。
+offset：消息在分区中的偏移量，用来在分区中唯一的标识这个消息
+图
+
+
+
+
 
 kafka集群部署
