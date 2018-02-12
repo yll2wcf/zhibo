@@ -20,33 +20,36 @@ Kafka整体架构如图4-22所示。
 ![](/assets/Kafka原理.png)  
 图4-22
 在kafka中，发送消息者称为producer，而消息拉取者称为consumer。通常consumer是被定义在consumer group中。kafka通过Zookeeper管理集群。同一个消息可以被多个consumer group拉取处理，但是在一个consumer group里只能有一个consumer处理该条消息。同一个group中的consumer之间是竞争互斥的关系。
-kafka集群由多个实例组成，每个节点称为Broker。一个Topic可以被划分为多个Partition。每个Partition可以有多个副本。Kafka会尽量将同一个partition的不同副本均匀分布到不同的broker。
-图
-每一组partition有一个leaer，其余为follower。leader负责读写数据，follower只负责与leader同步数据。
+kafka集群由多个实例组成，每个节点称为Broker。一个Topic可以被划分为多个Partition。每个Partition可以有多个副本。Kafka会尽量将同一个partition的不同副本均匀分布到不同的broker。如图4-23。  
+![](/assets/partition.png)
+图4-23。  
+图中一共有三个broker，两个topic。topic1有两个partition，topic2有一个partition，各有3个副本。  
+每一组partition有一个leaer，其余为follower。leader负责读写数据，follower只负责与leader同步数据。  
+Partition内消息顺序存储，写入新消息采用追加的方式，消费消息采用FIFO的方式顺序拉取消息。Kafka只保证同一个分区内有序，不保证Topic整体（多个分区之间）有序。如图4-24。  
+![](/assets/seq.png)
+图4-24。  
+下面介绍几个Kafka中的核心概念。  
+#### Broker  
+启动kafka的一个实例就是一个broker，一个kafka集群可以启动多个broker。通常，一个broker就是一台server。  
+#### Topic  
+kafka中同一种类型数据集的名称，相当于数据库中的表。producer将同一类型的数据写入同一个topic下，consumer从同一topic消费同一类型的数据。  
+#### Partition  
+一个topic可以设置多个分区，相当于把一个数据集分成多份，分别放到不同的分区中存储，一个topic可以有一个或者多个分区，分区内消息有序。  
+#### Replication  
+partition的副本。一个partition可以设置一个或者多个副本，副本主要保证系统能够持续不丢失的对外提供服务，提高系统的容错能力。在0.8以前是没有Replication的，一旦某台broker宕机，其上partition数据便丢失。  
+#### Producer  
+消息生产者，负责向kafka中发布消息。producer端发送的message必须指定是发送到哪个topic，但是不需要指定topic下的哪个partition，因为kafka会把收到的message进行load balance，均匀的分布在这个topic下的不同的partition上。kafka集群中的任何一个broker,都可以向producer提供metadata信息，这些metadata中包含集群中存活的brokers列表和partitions leader列表等信息。当producer获取到metadata信息之后, producer将会和topic下所有partition leader保持socket连接;消息由producer直接通过socket发送到broker,中间不会经过任何"路由层"。  
+#### Consumer Group  
+消费者所属组，一个CG可以包含一个或多个consumer，当一个topic被一个CG消费的时候，CG内只能有一个consumer消费同一条消息，不会出现同一个CG多个consumer同时消费一条消息造成一个消息被一个CG消费多次的情况。一个CG内的consumer对消息的处理逻辑是相同的，不同的CG的consumer对消息的处理逻辑不同。  
+#### Consumer  
+消息消费者，consumer从kafka指定的主题中拉取消息。每个consumer客户端被创建时，会向zookeeper注册自己的信息，此作用主要是为"负载均衡。一个group中的多个consumer可以交错的消费一个topic的所有partitions。简而言之,保证此topic的所有partitions都能被此group所消费，且消费时为了性能考虑，让partition相对均衡的分散到每个consumer上。一般，consumer数量与topic下的partition数量相等会达到最大效率。  
+#### Zookeeper  
+Zookeeper在kafka集群中主要用于协调管理，kafka将元数据信息保存在Zookeeper中，通过Zookeeper管理维护整个kafka集群的动态扩展、各个broker负载均衡、Partition Leader选举等。  
+###4 Kafka存储
+在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。每个partition目录下是segment（段文件），segment是kafka中最小数据存储单位。一个partition包含多个segment文件，每个segment以message在partition中的起始偏移量命名，以log结尾。如图4-25。  
+![](/assets/log文件.png)  
+图4-25。  
 
-Partition内消息顺序存储，写入新消息采用追加的方式，消费消息采用FIFO的方式顺序拉取消息。
-一个Topic可以有多个分区，Kafka只保证同一个分区内有序，不保证Topic整体（多个分区之间）有序。
-图
-
-Consumer Group（CG），为了加快读取速度，多个consumer可以划分为一个组，并行消费一个Topic。一个Topic可以由多个CG订阅，多个CG之间是平等的，同一个CG内可以有一个或多个consumer，同一个CG内的consumer之间是竞争关系，一个消息在一个CG内只能被一个consumer消费。
-
-一个CG内的consumer对消息的处理逻辑是相同的，不同的CG的consumer对消息的处理逻辑不同。
-
-kafka核心概念：
-Broker：启动kafka的一个实例就是一个broker，一个kafka集群可以启动多个broker
-Topic：kafka中同一种类型数据集的名称，相当于数据库中的表，producer将同一类型的数据写入同一个topic下，consumer从同一topic消费同一类型的数据
-Partition：一个topic可以设置多个分区，相当于把一个数据集分成多份分别放到不同的分区中存储，一个topic可以有一个或者多个分区，分区内消息有序。
-Replication：副本，一个partition可以设置一个或者多个副本，副本主要保证系统能够持续不丢失的对外提供服务，提高系统的容错能力。在0.8以前是没有Replication的，一旦某台broker宕机，其上partition数据便丢失。
-Producer：消息生产者，负责向kafka中发布消息
-Consumer Group：消费者所属组，一个CG可以包含一个或多个consumer，当一个topic被一个CG消费的时候，CG内只能有一个consumer消费同一条消息，不会出现同一个CG多个consumer同时消费一条消息造成一个消息被一个CG消费多次的情况。
-Consumer：消息消费者，consumer从kafka指定的主题中拉取消息
-Zookeeper：Zookeeper在kafka集群中主要用于协调管理，kafka将元数据信息保存在Zookeeper中，通过Zookeeper管理维护整个kafka集群的动态扩展、各个Broker负载均衡、Partition Leader选举等。
-
-kafka存储
-每个partition的副本是一个目录
-Segment：段文件，kafka中最小数据存储单位，一个partition包含多个segment文件，每个segment以message在partition中的起始偏移量命名，以log结尾。
-offset：消息在分区中的偏移量，用来在分区中唯一的标识这个消息
-图
 
 索引文件
 kafka为了提高写入、查询速度，在partition文件夹下每一个segment log文件都有相同的索引文件，在kafka0.10以后的版本中会存在两个索引文件。一个用offset做名字以index结尾的索引文件，我们称为偏移量索引文件。一个是以消息写入的时间戳作为名字以timeindex结尾的索引文件，我们称为时间戳索引文件，如图。
