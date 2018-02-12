@@ -54,24 +54,14 @@ kafka为了提高写入、查询速度，在partition文件夹下每一个segmen
 ![](/assets/index.png)
 图4-26
 我们简单介绍一下偏移量索引文件，时间戳索引文件同理类似。
-偏移量索引文件以偏移量作为名称，index为后缀。采用稀疏存储方式，每隔一定字节的数据建立一条索引（这样的目的是为了减少索引文件的大小）。索引文件的内容格式为offset，position（物理存储位置）。
-图
-
-时间戳索引文件：
-以时间戳作为名称，以timeindex为后缀。时间戳是由producer来决定，有两种时间，一种是消息创建时间的时间戳，一种是消息写入队列时间的时间戳。
-索引内容格式：timestamp，offset
-采用稀疏存储方式
-通过log.index.interval.bytes设置索引跨度
-
-###4 Kafka高可用
-kafka高可用：
-1、多分区、多副本
-2、kafka Controller选举
-从集群中的broker选举出一个Broker作为Controller控制节点。控制节点负责整个集群的管理，如Broker管理、Topic管理、Partition Leader选举等。
-选举过程通过向Zookeeper创建临时znode实现，未被选中的Broker监听Controller的znode，等待下次选举。
-3、kafka Partition Leader选举
-Controller负责分区Leader选举
-ISR列表：Follower批量从Leader拖取数据，Leader跟踪保持同步的follower列表ISR（In Sync Replica），ISR作为下次选主的候选列表。Follower心跳超时或者消息落后太多，将被移除出ISR
-Leader失败后，从ISR列表中选择一个Follower作为新的Leader。
+偏移量索引文件以偏移量作为名称，index为后缀。index文件中并没有为数据文件中的每条消息建立索引，而是采用了稀疏存储的方式，每隔一定字节的数据建立一条索引。这样避免了索引文件占用过多的空间，从而可以将索引文件保留在内存中。但缺点是没有建立索引的消息也不能一次定位到其在数据文件的位置，从而需要做一次顺序扫描，但是这次顺序扫描的范围就很小了。如图4-27。  
+![](/assets/index2.png)
+图4-27。  
+###5 Kafka高可用  
+最后，我们来看看Kafka的高可用特性。
+#### 多分区、多副本
+一般来说，一个topic的partition数量大于等于broker的数量，可以提高吞吐率。同一个Partition的Replica尽量分散到不同的机器可以提高可用性。但是，replica副本数越高，系统虽然越稳定，但是会带来资源和性能上的下降，replica副本少的话，也会造成系统丢数据的风险。  
+#### Kafka Controller选举
+实际上，一个Kafka将会管理成千上万的topic分区。每一个分区都要选出一个leader。因此，优化leader的选择过程也是很重要的，它决定了系统发生故障时的空窗期有多久。Kafka选择一个broker节点作为controller，当发现有节点down掉的时候，它负责在其他分区副本所在的所有节点中选择新的leader,这使得Kafka可以批量高效地管理所有分区节点的主从关系。如果controller down掉了，活着的broker节点中的一个会被切换为新的controller。  
 
 
