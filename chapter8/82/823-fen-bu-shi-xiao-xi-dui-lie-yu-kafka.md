@@ -16,11 +16,11 @@ Kafka是分布式的消息系统，它借助Zookeeper来实现集群管理。当
 #### 实时性  
 进入到kafka的消息能够立刻被消费者消费。当生产者将消息发送到Kafka后，就会去立刻通知ZooKeeper，Zookeeper会watch到相关的动作，当watch到相关的数据变化后，会通知消费者去消费消息。消费者是主动去Pull（拉）kafka中的消息，这样可以降低Broker的压力，因为Broker中的消息是无状态的，Broker也不知道哪个消息是可以消费的。当消费者消费了一条消息后，也必须要去通知ZooKeeper。zookeeper会记录下消费的数据，这样当系统出现问题后就可以还原，可以知道哪些消息已经被消费了。  
 ###3 Kafka原理  
-Kafka整体架构如图
-在kafka中，发送消息者称为Producer，而消息拉取者称为Consumer。通常，consumer是被定义在Consumer Group里
-kafka通过Zookeeper管理集群。同一个消息可以被多个Consumer Group拉取处理，但是在一个Consumer Group里只能有一个Consumer处理该条消息。Consumer之间是竞争互斥的关系。
-kafka集群由多个实例组成，每个节点称为Broker，对消息保存时根据Topic进行归类。
-一个Topic可以被划分为多个Partition。每个Partition可以有多个副本。同一个partition的不同副本分布到不同的broker。
+Kafka整体架构如图4-22所示。  
+![](/assets/Kafka原理.png)  
+图4-22
+在kafka中，发送消息者称为producer，而消息拉取者称为consumer。通常consumer是被定义在consumer group中。kafka通过Zookeeper管理集群。同一个消息可以被多个consumer group拉取处理，但是在一个consumer group里只能有一个consumer处理该条消息。同一个group中的consumer之间是竞争互斥的关系。
+kafka集群由多个实例组成，每个节点称为Broker。一个Topic可以被划分为多个Partition。每个Partition可以有多个副本。Kafka会尽量将同一个partition的不同副本均匀分布到不同的broker。
 图
 每一组partition有一个leaer，其余为follower。leader负责读写数据，follower只负责与leader同步数据。
 
