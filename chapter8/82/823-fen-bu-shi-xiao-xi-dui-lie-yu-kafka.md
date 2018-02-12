@@ -56,6 +56,17 @@ Segment：段文件，kafka中最小数据存储单位，一个partition包含�
 offset：消息在分区中的偏移量，用来在分区中唯一的标识这个消息
 图
 
+索引文件
+kafka为了提高写入、查询速度，在partition文件夹下每一个segment log文件都有相同的索引文件，在kafka0.10以后的版本中会存在两个索引文件。一个用offset做名字以index结尾的索引文件，我们称为偏移量索引文件。一个是以消息写入的时间戳作为名字以timeindex结尾的索引文件，我们称为时间戳索引文件，如图。
+图
+
+偏移量索引文件：
+以偏移量作为名称，index为后缀
+索引内容格式：offset，position
+采用稀疏存储方式
+通过log.index.interval.bytes设置索引跨度
+图
+
 
 
 
