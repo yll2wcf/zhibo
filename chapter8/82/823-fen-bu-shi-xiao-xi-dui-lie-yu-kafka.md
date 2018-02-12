@@ -49,17 +49,12 @@ Zookeeper在kafka集群中主要用于协调管理，kafka将元数据信息保�
 在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。每个partition目录下是segment（段文件），segment是kafka中最小数据存储单位。一个partition包含多个segment文件，每个segment以message在partition中的起始偏移量命名，以log结尾。如图4-25。  
 ![](/assets/log文件.png)  
 图4-25。  
-
-
-索引文件
-kafka为了提高写入、查询速度，在partition文件夹下每一个segment log文件都有相同的索引文件，在kafka0.10以后的版本中会存在两个索引文件。一个用offset做名字以index结尾的索引文件，我们称为偏移量索引文件。一个是以消息写入的时间戳作为名字以timeindex结尾的索引文件，我们称为时间戳索引文件，如图。
-图
-
-偏移量索引文件：
-以偏移量作为名称，index为后缀
-索引内容格式：offset，position（物理存储位置）
-采用稀疏存储方式
-通过log.index.interval.bytes设置索引跨度
+比如有100条消息，它们的offset是从0到99。假设将数据文件分成5段，第一段为0-19，第二段为20-39，以此类推，每段放在一个segment里面，以该段中最小的offset命名。这样在查找指定offset的消息的时候，用二分查找就可以定位到该消息在哪个段中。
+kafka为了提高写入、查询速度，在partition文件夹下每一个segment log文件都有相同的索引文件，在kafka0.10以后的版本中会存在两个索引文件。一个用offset做名字以index结尾的索引文件，我们称为偏移量索引文件。一个是以消息写入的时间戳作为名字以timeindex结尾的索引文件，我们称为时间戳索引文件，如图4-26。  
+![](/assets/index.png)
+图4-26
+我们简单介绍一下偏移量索引文件，时间戳索引文件同理类似。
+偏移量索引文件以偏移量作为名称，index为后缀。采用稀疏存储方式，每隔一定字节的数据建立一条索引（这样的目的是为了减少索引文件的大小）。索引文件的内容格式为offset，position（物理存储位置）。
 图
 
 时间戳索引文件：
