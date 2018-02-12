@@ -1,7 +1,7 @@
 ##4.3.3 分布式消息队列与Kafka  
 kafka基本原理
 简介
-Kafka是由Linkedin开发的消息队列，使用Scala语言编写。
+Kafka是由Linkedin开发的消息队列，使用Scala语言编写。之后成为 Apache 项目的一部分
 分布式、多分区、多副本、基于发布/订阅的消息系统
 按topic存储，为了提高吞吐率，每个topic分成多个分区，每个分区可以有副本。生产者将消息发布到kafka中，消费者订阅主题。
 Kafka设计的初衷是希望作为一个统一的信息收集平台，能够实时的收集反馈信息，并能够支撑较大的数据量，且具备良好的容错能力。
@@ -73,7 +73,18 @@ kafka为了提高写入、查询速度，在partition文件夹下每一个segmen
 采用稀疏存储方式
 通过log.index.interval.bytes设置索引跨度
 
+kafka高可用：
+1、多分区、多副本
+2、kafka Controller选举
+从集群中的broker选举出一个Broker作为Controller控制节点。控制节点负责整个集群的管理，如Broker管理、Topic管理、Partition Leader选举等。
+选举过程通过向Zookeeper创建临时znode实现，未被选中的Broker监听Controller的znode，等待下次选举。
+3、kafka Partition Leader选举
+Controller负责分区Leader选举
+ISR列表：Follower批量从Leader拖取数据，Leader跟踪保持同步的follower列表ISR（In Sync Replica），ISR作为下次选主的候选列表。Follower心跳超时或者消息落后太多，将被移除出ISR
+Leader失败后，从ISR列表中选择一个Follower作为新的Leader。
 
 
 
 kafka集群部署
+
+
