@@ -28,7 +28,7 @@ Kafka设计的初衷是希望作为一个统一的信息收集平台，能够实
 在kafka中，发送消息者称为Producer，而消息拉取者称为Consumer。通常，consumer是被定义在Consumer Group里
 kafka通过Zookeeper管理集群。同一个消息可以被多个Consumer Group拉取处理，但是在一个Consumer Group里只能有一个Consumer处理该条消息。Consumer之间是竞争互斥的关系。
 kafka集群由多个实例组成，每个节点称为Broker，对消息保存时根据Topic进行归类。
-一个Topic可以被划分为多个Partition。每个Partition可以有多个副本。
+一个Topic可以被划分为多个Partition。每个Partition可以有多个副本。同一个partition的不同副本分布到不同的broker。
 图
 每一组partition有一个leaer，其余为follower。leader负责读写数据，follower只负责与leader同步数据。
 
@@ -44,7 +44,7 @@ kafka核心概念：
 Broker：启动kafka的一个实例就是一个broker，一个kafka集群可以启动多个broker
 Topic：kafka中同一种类型数据集的名称，相当于数据库中的表，producer将同一类型的数据写入同一个topic下，consumer从同一topic消费同一类型的数据
 Partition：一个topic可以设置多个分区，相当于把一个数据集分成多份分别放到不同的分区中存储，一个topic可以有一个或者多个分区，分区内消息有序。
-Replication：副本，一个partition可以设置一个或者多个副本，副本主要保证系统能够持续不丢失的对外提供服务，提高系统的容错能力。
+Replication：副本，一个partition可以设置一个或者多个副本，副本主要保证系统能够持续不丢失的对外提供服务，提高系统的容错能力。在0.8以前是没有Replication的，一旦某台broker宕机，其上partition数据便丢失。
 Producer：消息生产者，负责向kafka中发布消息
 Consumer Group：消费者所属组，一个CG可以包含一个或多个consumer，当一个topic被一个CG消费的时候，CG内只能有一个consumer消费同一条消息，不会出现同一个CG多个consumer同时消费一条消息造成一个消息被一个CG消费多次的情况。
 Consumer：消息消费者，consumer从kafka指定的主题中拉取消息
@@ -62,11 +62,16 @@ kafka为了提高写入、查询速度，在partition文件夹下每一个segmen
 
 偏移量索引文件：
 以偏移量作为名称，index为后缀
-索引内容格式：offset，position
+索引内容格式：offset，position（物理存储位置）
 采用稀疏存储方式
 通过log.index.interval.bytes设置索引跨度
 图
 
+时间戳索引文件：
+以时间戳作为名称，以timeindex为后缀。时间戳是由producer来决定，有两种时间，一种是消息创建时间的时间戳，一种是消息写入队列时间的时间戳。
+索引内容格式：timestamp，offset
+采用稀疏存储方式
+通过log.index.interval.bytes设置索引跨度
 
 
 
