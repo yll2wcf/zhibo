@@ -13,6 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 ```
+在Activity里面进行组件注册、功能设置等，代码如下
 
 ```java
 public class PushActivity extends AppCompatActivity implements RtmpHandler.RtmpListener,
