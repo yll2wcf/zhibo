@@ -57,3 +57,110 @@ public class PushActivity extends AppCompatActivity implements RtmpHandler.RtmpL
     }
 }
 ```
+在上面代码中可以看到，我们分别对编码、RTMP、录像设置了状态回调方法，我们可以在这些方法中获得是否连接成功、是否断开、视频码率(Bitrate), 帧率(FPS)状态等
+```java
+    @Override
+    public void onNetworkWeak() {}
+
+    @Override
+    public void onNetworkResume() {}
+
+    @Override
+    public void onEncodeIllegalArgumentException(IllegalArgumentException e) {}
+
+    @Override
+    public void onRecordPause() {}
+
+    @Override
+    public void onRecordResume() {}
+
+    @Override
+    public void onRecordStarted(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRecordFinished(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRecordIllegalArgumentException(IllegalArgumentException e) {}
+
+    @Override
+    public void onRecordIOException(IOException e) {}
+
+    @Override
+    public void onRtmpConnecting(String msg) {
+        Toast.makeText(getApplicationContext(), "连接中。。。", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRtmpConnected(String msg) {
+        Toast.makeText(getApplicationContext(), "连接成功，您的Show Time", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRtmpVideoStreaming() {}
+
+    @Override
+    public void onRtmpAudioStreaming() {}
+
+    //流媒体结束
+    @Override
+    public void onRtmpStopped() {}
+
+    @Override
+    public void onRtmpDisconnected() {
+        Toast.makeText(getApplicationContext(), "直播断开连接", Toast.LENGTH_SHORT).show();
+        btuStartID.setText("开始直播");
+        mPublisher.stopPublish();
+        if(!isFinishing())
+        mPublisher.startCamera();
+    }
+
+    @Override
+    public void onRtmpVideoFpsChanged(double fps) {
+        Log.i(TAG, String.format("Output Fps: %f", fps));
+    }
+
+    @Override
+    public void onRtmpVideoBitrateChanged(double bitrate) {
+        int rate = (int) bitrate;
+        if (rate / 1000 > 0) {
+            Log.i(TAG, String.format("Video bitrate: %f kbps", bitrate / 1000));
+        } else {
+            Log.i(TAG, String.format("Video bitrate: %d bps", rate));
+        }
+    }
+
+    @Override
+    public void onRtmpAudioBitrateChanged(double bitrate) {
+        int rate = (int) bitrate;
+        if (rate / 1000 > 0) {
+            Log.i(TAG, String.format("Audio bitrate: %f kbps", bitrate / 1000));
+        } else {
+            Log.i(TAG, String.format("Audio bitrate: %d bps", rate));
+        }
+    }
+
+    @Override
+    public void onRtmpSocketException(SocketException e) {
+        handleException(e);
+    }
+
+    @Override
+    public void onRtmpIOException(IOException e) {
+        handleException(e);
+    }
+
+    @Override
+    public void onRtmpIllegalArgumentException(IllegalArgumentException e) {
+        handleException(e);
+    }
+
+    @Override
+    public void onRtmpIllegalStateException(IllegalStateException e) {
+        handleException(e);
+    }
+```
