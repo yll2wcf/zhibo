@@ -59,42 +59,43 @@ public class PushActivity extends AppCompatActivity implements RtmpHandler.RtmpL
 ```
 在上面代码中可以看到，我们分别对编码、RTMP、录像设置了状态回调方法，我们可以在这些方法中获得是否连接成功、是否断开、视频码率(Bitrate), 帧率(FPS)状态等
 ```java
+    //网络弱
     @Override
     public void onNetworkWeak() {}
-
+    //网路重新连接
     @Override
     public void onNetworkResume() {}
-
+    //编码出现IllegalArgumentException错误
     @Override
     public void onEncodeIllegalArgumentException(IllegalArgumentException e) {}
-
+    //录像暂停
     @Override
     public void onRecordPause() {}
-
+    //录像重新开始
     @Override
     public void onRecordResume() {}
-
+    //录像开始
     @Override
     public void onRecordStarted(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
-
+    //录像关闭
     @Override
     public void onRecordFinished(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
-
+    //录像出现IllegalArgumentException错误
     @Override
     public void onRecordIllegalArgumentException(IllegalArgumentException e) {}
-
+    //录像出现IOException错误
     @Override
     public void onRecordIOException(IOException e) {}
-
+    //RTMP连接
     @Override
     public void onRtmpConnecting(String msg) {
         Toast.makeText(getApplicationContext(), "连接中。。。", Toast.LENGTH_SHORT).show();
     }
-
+    //RTMP连接成功
     @Override
     public void onRtmpConnected(String msg) {
         Toast.makeText(getApplicationContext(), "连接成功，您的Show Time", Toast.LENGTH_SHORT).show();
@@ -110,20 +111,18 @@ public class PushActivity extends AppCompatActivity implements RtmpHandler.RtmpL
     @Override
     public void onRtmpStopped() {}
 
+    //流媒体连接
     @Override
     public void onRtmpDisconnected() {
         Toast.makeText(getApplicationContext(), "直播断开连接", Toast.LENGTH_SHORT).show();
-        btuStartID.setText("开始直播");
-        mPublisher.stopPublish();
-        if(!isFinishing())
-        mPublisher.startCamera();
     }
 
+    //流媒体FPS改变时
     @Override
     public void onRtmpVideoFpsChanged(double fps) {
         Log.i(TAG, String.format("Output Fps: %f", fps));
     }
-
+    //流媒体视频码率(Bitrate)状态改变时
     @Override
     public void onRtmpVideoBitrateChanged(double bitrate) {
         int rate = (int) bitrate;
@@ -133,7 +132,7 @@ public class PushActivity extends AppCompatActivity implements RtmpHandler.RtmpL
             Log.i(TAG, String.format("Video bitrate: %d bps", rate));
         }
     }
-
+    //音频视频码率(Bitrate)状态改变时
     @Override
     public void onRtmpAudioBitrateChanged(double bitrate) {
         int rate = (int) bitrate;
@@ -143,24 +142,17 @@ public class PushActivity extends AppCompatActivity implements RtmpHandler.RtmpL
             Log.i(TAG, String.format("Audio bitrate: %d bps", rate));
         }
     }
+    //RTMP Socket错误
+    @Override
+    public void onRtmpSocketException(SocketException e) {}
+
+    //RTMP IOException错误
+    @Override
+    public void onRtmpIOException(IOException e) {}
 
     @Override
-    public void onRtmpSocketException(SocketException e) {
-        handleException(e);
-    }
+    public void onRtmpIllegalArgumentException(IllegalArgumentException e) {}
 
     @Override
-    public void onRtmpIOException(IOException e) {
-        handleException(e);
-    }
-
-    @Override
-    public void onRtmpIllegalArgumentException(IllegalArgumentException e) {
-        handleException(e);
-    }
-
-    @Override
-    public void onRtmpIllegalStateException(IllegalStateException e) {
-        handleException(e);
-    }
+    public void onRtmpIllegalStateException(IllegalStateException e) {}
 ```
