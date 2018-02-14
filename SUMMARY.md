@@ -77,6 +77,8 @@
     * [6.6.3 滤镜](chapter6/66/663chu-shi-hua-ye-mian.md)
     * [6.6.4 推流](chapter6/66/664-tui-liu.md)
     * [6.6.5 拉流](chapter6/66/665la-liu.md)
+    * [6.6.6 点赞](chapter6/66/666-dian-zan.md)
+    * [6.6.7 弹幕](chapter6/66/667-dan-mu.md)
   * [本章小结](chapter6/67.md)
 * [第七章 WEB 解决方案](chapter7.md)
   * [7.1 Adobe Flash Player](chapter7/71.md)
