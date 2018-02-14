@@ -18,12 +18,15 @@
 public class PushActivity extends AppCompatActivity implements RtmpHandler.RtmpListener,
         SrsRecordHandler.SrsRecordListener, SrsEncodeHandler.SrsEncodeListener{
  private SrsPublisher mPublisher;//推流对象
+ private  ImageView btuTurnCameraID;
+ 
   @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_view);
         
        SrsCameraView srsCameraView = findViewById(R.id.pushViewCameraID);//相机组件
+       btuTurnCameraID = findViewById(R.id.btuTurnCameraID);
        
        mPublisher = new SrsPublisher(srsCameraView);
         //设置编码状态的回调方法
@@ -32,14 +35,24 @@ public class PushActivity extends AppCompatActivity implements RtmpHandler.RtmpL
         mPublisher.setRtmpHandler(new RtmpHandler(this));
         //设置录像状态的回调方法
         mPublisher.setRecordHandler(new SrsRecordHandler(this));
-//        mPublisher.setPreviewResolution(640, 360);
-//        mPublisher.setOutputResolution(360, 640);
-        ////设置预览分辨率
+        //设置预览分辨率
         mPublisher.setPreviewResolution(1920, 1080);
         //设置推流分辨率
         mPublisher.setOutputResolution(1080, 1920);
         //设置传输率
         mPublisher.setVideoHDMode();
+        //设置直播源
+        mPublisher.startPublish(urlStr);
+        //开启摄像头
         mPublisher.startCamera();
+        
+         //切换前后摄像头
+        btuTurnCameraID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPublisher.switchCameraFace((mPublisher.getCamraId() + 1) %                      Camera.getNumberOfCameras());
+            }
+        });
+    }
 }
 ```
