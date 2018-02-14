@@ -1,1 +1,100 @@
 ##6.6.7 弹幕
+弹幕也是直播时比较常用的功能，实现起来也并不复杂，可以自己实现也可以借助一些优秀的开源库。这里我们选择了比较好的一个开源框架BarrageRenderer来完成弹幕功能。
+
+####1.引用
+
+
+```
+#import "BarrageRenderer.h"
+#import "NSSafeObject.h"
+@interface PullFlowViewController ()<BarrageRendererDelegate>{
+}
+```
+
+
+
+####2.初始化弹幕
+
+
+```
+- (void)initBarrageRenderer
+{
+    _renderer = [[BarrageRenderer alloc]init];
+    _renderer.smoothness = .2f;
+    _renderer.delegate = self;
+    [_playerView addSubview:_renderer.view];
+    _renderer.canvasMargin = UIEdgeInsetsMake(10, 10, 10, 10);
+    // 若想为弹幕增加点击功能, 请添加此句话, 并在Descriptor中注入行为
+    _renderer.view.userInteractionEnabled = YES;
+    [_playerView sendSubviewToBack:_renderer.view];
+}
+```
+
+####3.绘制弹幕样式
+```
+- (BarrageDescriptor *)walkTextSpriteDescriptorWithDirection:(BarrageWalkDirection)direction
+{
+    return [self walkTextSpriteDescriptorWithDirection:direction side:BarrageWalkSideDefault];
+}
+
+- (BarrageDescriptor *)walkTextSpriteDescriptorWithDirection:(BarrageWalkDirection)direction side:(BarrageWalkSide)side
+{
+    BarrageDescriptor * descriptor = [[BarrageDescriptor alloc]init];
+    descriptor.spriteName = NSStringFromClass([BarrageWalkTextSprite class]);
+    descriptor.params[@"bizMsgId"] = [NSString stringWithFormat:@"%ld",(long)_index];
+    descriptor.params[@"text"] = [NSString stringWithFormat:@"过场文字弹幕:%ld",(long)_index++];
+    descriptor.params[@"textColor"] = [UIColor whiteColor];
+    descriptor.params[@"speed"] = @(100 * (double)random()/RAND_MAX+50);
+    descriptor.params[@"direction"] = @(direction);
+    descriptor.params[@"side"] = @(side);
+    descriptor.params[@"clickAction"] = ^(NSDictionary *params){
+        NSString *msg = [NSString stringWithFormat:@"弹幕 %@ 被点击",params[@"bizMsgId"]];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:msg delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+        [alertView show];
+    };
+    return descriptor;
+}
+```
+弹幕显示方式
+```
+     [_renderer receive:[self walkTextSpriteDescriptorWithDirection:BarrageWalkDirectionR2L side:BarrageWalkSideLeft]];
+     [_renderer receive:[self walkTextSpriteDescriptorWithDirection:BarrageWalkDirectionR2L side:BarrageWalkSideDefault]];
+```
+
+####4.实现回调方法
+```
+- (void)barrageRenderer:(BarrageRenderer *)renderer spriteStage:(BarrageSpriteStage)stage spriteParams:(NSDictionary *)params
+{
+    NSString *subid = [params[@"identifier"] substringToIndex:8];
+    if (stage == BarrageSpriteStageBegin) {
+        NSLog(@"id:%@,bizMsgId:%@ =>进入",subid,params[@"bizMsgId"]);
+    } else if (stage == BarrageSpriteStageEnd) {
+        NSLog(@"id:%@,bizMsgId:%@ =>离开",subid,params[@"bizMsgId"]);
+        /* 注释代码演示了如何复制一条弹幕
+         BarrageDescriptor * descriptor = [[BarrageDescriptor alloc]init];
+         descriptor.spriteName = NSStringFromClass([BarrageWalkTextSprite class]);
+         [descriptor.params addEntriesFromDictionary:params];
+         descriptor.params[@"delay"] = @(0);
+         [renderer receive:descriptor];
+         */
+    }
+}
+```
+####5.开始弹幕
+
+
+```
+     [_renderer start];
+      [_timer invalidate];
+    NSSafeObject * safeObj = [[NSSafeObject alloc]initWithObject:self withSelector:@selector(autoSendBarrage)];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:safeObj selector:@selector(excute) userInfo:nil repeats:YES];
+```
+
+####6.结束弹幕
+```
+    [_renderer stop];
+```
+
+
+
+
