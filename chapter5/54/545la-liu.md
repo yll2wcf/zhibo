@@ -224,3 +224,74 @@ public class VideoPlayerIJK extends FrameLayout {
         android:layout_height="match_parent"
         android:layout_gravity="center"/>
 ```
+Activity中注册界面、组件，功能设置代码如下
+```java
+public class PullActivity extends AppCompatActivity{
+ @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pull_view);
+        
+        String urlStr = "RMTP:视频地址";
+        
+         //加载so文件
+        try {
+            IjkMediaPlayer.loadLibrariesOnce(null);
+            IjkMediaPlayer.native_profileBegin("libijkplayer.so");
+        } catch (Exception e) {
+            this.finish();
+        }
+
+        VideoPlayerIJK ijkPlayer = findViewById(R.id.videoViewID);
+        ijkPlayer.setVideoPath(urlStr);
+        
+        //播放器设置监听方法
+        ijkPlayer.setListener(new VideoPlayerListener() {
+            @Override
+            public void onBufferingUpdate(IMediaPlayer mp, int percent) {
+            }
+
+            @Override
+            public void onCompletion(IMediaPlayer mp) {
+                mp.seekTo(0);
+                mp.start();
+            }
+
+            @Override
+            public boolean onError(IMediaPlayer mp, int what, int extra) {
+                return false;
+            }
+
+            @Override
+            public boolean onInfo(IMediaPlayer mp, int what, int extra) {
+               if(what == IMediaPlayer.MEDIA_INFO_BUFFERING_START){
+                    textNoDataID.setVisibility(View.VISIBLE);
+                    ijkPlayer.setVisibility(View.GONE);
+                    Toast.makeText(PullActivity.this,"直播结束",Toast.LENGTH_SHORT).show();
+                }else if(what ==  IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START
+                        || what ==  IMediaPlayer.MEDIA_INFO_BUFFERING_END){
+                    textNoDataID.setVisibility(View.GONE);
+                    ijkPlayer.setVisibility(View.VISIBLE);
+                   Toast.makeText(PullActivity.this,"直播开始",Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public void onPrepared(IMediaPlayer mp) {
+                mp.start();
+            }
+
+            @Override
+            public void onSeekComplete(IMediaPlayer mp) {
+
+            }
+
+            @Override
+            public void onVideoSizeChanged(IMediaPlayer mp, int width, int height, int sar_num, int sar_den) {
+                //获取到视频的宽和高
+            }
+        });
+  }
+
+```
