@@ -25,7 +25,8 @@ dependencies {
     compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
 }
 ```
-依赖集成完之后，我们根据IJKplayer提供的IMediaPlayer类，去掉没有用的代码，自定义一个播放器组件，代码如下。
+####播放器使用
+依赖集成完之后，我们根据IJKplayer提供的IMediaPlayer类，自定义一个播放器组件，代码如下
 ```java
 public class VideoPlayerIJK extends FrameLayout {
 
@@ -214,4 +215,12 @@ public class VideoPlayerIJK extends FrameLayout {
         }
     }
 }
+```
+自定义完成后，在布局文件中，加入播放器控件，代码如下
+```xml
+ <com.troila.live.demo.widget.VideoPlayerIJK
+        android:id="@+id/videoViewID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"/>
 ```
