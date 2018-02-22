@@ -122,5 +122,31 @@ public class PullActivity extends AppCompatActivity{
         }
         mDanmakuView.addDanmaku(danmaku);
     }
+    
+     @Override
+    protected void onPause() {
+        super.onPause();
+        if (mDanmakuView != null && mDanmakuView.isPrepared()) {
+            mDanmakuView.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mDanmakuView != null && mDanmakuView.isPrepared() && mDanmakuView.isPaused()) {
+            mDanmakuView.resume();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //退出时释放资源
+        if (mDanmakuView != null) {
+            mDanmakuView.release();
+            mDanmakuView = null;
+        }
+    }
  
 ```
