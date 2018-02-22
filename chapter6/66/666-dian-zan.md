@@ -1,0 +1,92 @@
+##6.6.6 点赞
+点赞是观看直播时常用的一个功能，实现起来相对简单，可以理解为一个自定义的动画效果。
+####1.创建显示的view
+
+```
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.6 initialSpringVelocity:0.8 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.transform = CGAffineTransformIdentity;
+        self.alpha = 0.9;
+    } completion:NULL];
+    
+    NSInteger i = arc4random_uniform(2);
+    NSInteger rotationDirection = 1- (2*i);// -1 OR 1
+    NSInteger rotationFraction = arc4random_uniform(10);
+    [UIView animateWithDuration:totalAnimationDuration animations:^{
+        self.transform = CGAffineTransformMakeRotation(rotationDirection * PI/(16 + rotationFraction*0.2));
+    } completion:NULL];
+    
+    UIBezierPath *heartTravelPath = [UIBezierPath bezierPath];
+    [heartTravelPath moveToPoint:self.center];
+```
+
+
+####2.创建随机点
+
+
+```
+    CGPoint endPoint = CGPointMake(heartCenterX + (rotationDirection) * arc4random_uniform(2*heartSize), viewHeight/6.0 + arc4random_uniform(viewHeight/4.0));
+
+    NSInteger j = arc4random_uniform(2);
+    NSInteger travelDirection = 1- (2*j);// -1 OR 1
+
+    CGFloat xDelta = (heartSize/2.0 + arc4random_uniform(2*heartSize)) * travelDirection;
+    CGFloat yDelta = MAX(endPoint.y ,MAX(arc4random_uniform(8*heartSize), heartSize));
+    CGPoint controlPoint1 = CGPointMake(heartCenterX + xDelta, viewHeight - yDelta);
+    CGPoint controlPoint2 = CGPointMake(heartCenterX - 2*xDelta, yDelta);
+    
+    [heartTravelPath addCurveToPoint:endPoint controlPoint1:controlPoint1 controlPoint2:controlPoint2];
+```
+
+####3.创建动画
+
+
+```
+    CAKeyframeAnimation *keyFrameAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    keyFrameAnimation.path = heartTravelPath.CGPath;
+    keyFrameAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    keyFrameAnimation.duration = totalAnimationDuration + endPoint.y/viewHeight;
+    [self.layer addAnimation:keyFrameAnimation forKey:@"positionOnPath"];
+    
+    //Alpha & remove from superview
+    [UIView animateWithDuration:totalAnimationDuration animations:^{
+        self.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [self removeFromSuperview];
+    }];
+```
+####4.绘制
+
+
+```
+    [_strokeColor setStroke];
+    [_fillColor setFill];
+    
+    CGFloat drawingPadding = 4.0;
+    CGFloat curveRadius = floor((CGRectGetWidth(rect) - 2*drawingPadding) / 4.0);
+    UIBezierPath *heartPath = [UIBezierPath bezierPath];
+    
+    CGPoint tipLocation = CGPointMake(floor(CGRectGetWidth(rect) / 2.0), CGRectGetHeight(rect) - drawingPadding);
+    [heartPath moveToPoint:tipLocation];
+    
+    CGPoint topLeftCurveStart = CGPointMake(drawingPadding, floor(CGRectGetHeight(rect) / 2.4));
+    
+    [heartPath addQuadCurveToPoint:topLeftCurveStart controlPoint:CGPointMake(topLeftCurveStart.x, topLeftCurveStart.y + curveRadius)];
+    
+    [heartPath addArcWithCenter:CGPointMake(topLeftCurveStart.x + curveRadius, topLeftCurveStart.y) radius:curveRadius startAngle:PI endAngle:0 clockwise:YES];
+    
+    CGPoint topRightCurveStart = CGPointMake(topLeftCurveStart.x + 2*curveRadius, topLeftCurveStart.y);
+    [heartPath addArcWithCenter:CGPointMake(topRightCurveStart.x + curveRadius, topRightCurveStart.y) radius:curveRadius startAngle:PI endAngle:0 clockwise:YES];
+    
+    CGPoint topRightCurveEnd = CGPointMake(topLeftCurveStart.x + 4*curveRadius, topRightCurveStart.y);
+    [heartPath addQuadCurveToPoint:tipLocation controlPoint:CGPointMake(topRightCurveEnd.x, topRightCurveEnd.y + curveRadius)];
+    
+    [heartPath fill];
+    
+    heartPath.lineWidth = 1;
+    heartPath.lineCapStyle = kCGLineCapRound;
+    heartPath.lineJoinStyle = kCGLineCapRound;
+    [heartPath stroke];
+```
+
+
+
