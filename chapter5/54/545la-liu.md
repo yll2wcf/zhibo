@@ -293,5 +293,11 @@ public class PullActivity extends AppCompatActivity{
             }
         });
   }
+  
+   @Override
+    protected void onStop() {
+        super.onStop();
+        IjkMediaPlayer.native_profileEnd();
+    }
 
 ```

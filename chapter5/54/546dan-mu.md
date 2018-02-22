@@ -39,4 +39,88 @@ dependencies {
 ```
 Activity中的功能代码也简单，注册弹幕控件并添加数据即可
 ```java
+public class PullActivity extends AppCompatActivity{
+
+    private DanmakuView mDanmakuView;//弹幕组件
+    private DanmakuContext danmakuContext;//弹幕内容
+
+  @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pull_view);
+
+        mDanmakuView = findViewById(R.id.danmakuViewID);
+        //初始化弹幕组件
+        initDanmaku();
+    }
+    
+     //初始化弹幕组件
+    private void initDanmaku() {
+        //给弹幕视图设置回调，在准备阶段获取弹幕信息并开始
+        mDanmakuView.setCallback(new DrawHandler.Callback() {
+            @Override
+            public void prepared() {
+                mDanmakuView.start();
+            }
+
+            @Override
+            public void updateTimer(DanmakuTimer timer) {
+
+            }
+
+            @Override
+            public void danmakuShown(BaseDanmaku danmaku) {
+
+            }
+
+            @Override
+            public void drawingFinished() {
+
+            }
+        });
+        //缓存，提升绘制效率
+        mDanmakuView.enableDanmakuDrawingCache(true);
+        //DanmakuContext主要用于弹幕样式的设置
+        danmakuContext = DanmakuContext.create();
+        danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN,3);//描边
+        danmakuContext.setDuplicateMergingEnabled(false);//重复合并
+        danmakuContext.setScrollSpeedFactor(1.2f);//弹幕滚动速度
+        //让弹幕进入准备状态，传入弹幕解析器和样式设置
+        mDanmakuView.prepare(parser,danmakuContext);
+        //显示fps、时间等调试信息
+        mDanmakuView.showFPS(false);
+    }
+    
+     // 随机生成一些弹幕内容以供测试
+    private void generateSomeDanmaku() {
+
+        for (int i = 0 ; i < 100 ; i ++){
+            int time = new Random().nextInt(300);
+            String content = "" + time + time;
+            addDanmaku(content, false);
+        }
+    }
+
+
+    /**
+     * 向弹幕View中添加一条弹幕
+     * @param content    弹幕的具体内容
+     * @param withBorder 弹幕是否有边框
+     */
+    private void addDanmaku(String content, boolean withBorder) {
+        //弹幕实例BaseDanmaku,传入参数是弹幕方向
+        BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+        danmaku.text = content;
+        danmaku.padding = 5;
+        danmaku.textSize = sp2px(20);
+        danmaku.textColor = Color.WHITE;
+        int time = new Random().nextInt(900);
+        danmaku.setTime(mDanmakuView.getCurrentTime() + time*10);
+        //加边框
+        if (withBorder) {
+            danmaku.borderColor = Color.GREEN;
+        }
+        mDanmakuView.addDanmaku(danmaku);
+    }
+ 
 ```
