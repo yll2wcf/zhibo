@@ -1,28 +1,31 @@
 ###6.6.4推流
-我们使用LFLiveKit框架中的LFLiveSession进行推流。LFLiveSession常用属性，如下表所示：
+我们使用LFLiveKit框架中的LFLiveSession进行推流。LFLiveSession常用属性，如表6-2所示：
 
-| 属性 | 类型 | 说明 || :--- | :--- | :--- || running | BOOL | 控制直播开始结束 || preView | UIView | 视频图层 || captureDevicePosition | AVCaptureDevicePosition | 摄像头方向 || beautyFace | BOOL | 美颜开关 || muted | BOOL | 静音开关 || streamInfo | LFLiveStreamInfo | 控制直播流信息 || state | LFLiveState | 直播流上传状态 || showDebugInfo | BOOL | 是否显示调试信息 || reconnectInterval | NSUInteger | 重连间隔 |
+
+| 属性 | 类型 | 说明 || :--- | :--- | :--- || running | BOOL | 控制直播开始结束 || preView | UIView | 视频图层 || captureDevicePosition | AVCaptureDevicePosition | 摄像头方向 || beautyFace | BOOL | 美颜开关 || muted | BOOL | 静音开关 || streamInfo | LFLiveStreamInfo | 控制直播流信息 || state | LFLiveState | 直播流上传状态 || showDebugInfo | BOOL | 是否显示调试信息 || reconnectInterval | NSUInteger | 重连间隔 |
+
+表6-2
 
 实现步骤如下：
 
-####1.引用头文件和LFLiveSessionDelegate代理
+####1.引用头文件和LFLiveSessionDelegate代理
 ```
 #import "LFLiveKit.h"
 @interface PushFlowViewController ()<LFLiveSessionDelegate>
-```
-####2.创建变量
+```
+####2.创建变量
 ```
 @property (nonatomic, strong) LFLiveDebug *debugInfo;
 @property (nonatomic, strong) LFLiveSession *session;
-```
-####3.初始化session
+```
+####3.初始化session
 ```
 _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:videoConfiguration captureType:LFLiveCaptureDefaultMask];
 _session.delegate = self;
 _session.showDebugInfo = NO;
 _session.preView = self.view;
 ```
-####4.设置LFLiveVideoConfiguration
+####4.设置LFLiveVideoConfiguration
 ```
         /***   默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏 ***/
         LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
@@ -120,7 +123,7 @@ _session.preView = self.view;
          _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
          */
 ```
-####5.实现代理方法
+####5.实现代理方法
 ```
 /** live status changed will callback */
 - (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange:(LFLiveState)state {
@@ -167,7 +170,7 @@ _session.preView = self.view;
      [self.playButton setTitle:@"开始直播" forState:UIControlStateNormal];
 }
 ```
-####6.开始直播
+####6.开始直播
 ```
 LFLiveStreamInfo *stream = [LFLiveStreamInfo new];
 stream.url=@"rtmp://172.26.1.92:1935/liveOnline/6000";
