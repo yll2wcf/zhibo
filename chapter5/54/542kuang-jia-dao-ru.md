@@ -2,6 +2,9 @@
 示例项目中为了简洁、方便，除了Yasea框架，其他依赖我们都是在Gradle中引入的方式来引用的，项目结构如下图。
 
 
+####依赖引用说明
+
+####所需权限
 ```
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
