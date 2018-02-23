@@ -62,8 +62,8 @@ LFLiveKit框架中LFGPUImageBeautyFilter就是已经封装好GPUImage的类，�
 ```
 
 ###GPUImage美颜
-6.3节中我们讲过GPUImage是基于OpenGLES的，而使用OpenGLES程序来处理图片，一般会有4个步骤：
-1.初始化OpenGL ES环境，编译、链接顶点着色器和片元着色器；
+在6.3节中我们讲过GPUImage是基于OpenGLES的，而使用OpenGLES程序来处理图片，一般会有4个步骤：
+1. 初始化OpenGL ES环境，编译、链接顶点着色器和片元着色器；
 2、缓存顶点、纹理坐标数据，传送图像数据到GPU；
 3、绘制图元到特定的帧缓存；
 4、在帧缓存取出绘制的图像。

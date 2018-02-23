@@ -84,8 +84,8 @@
 
 
 ```
-     [_renderer start];
-      [_timer invalidate];
+    [_renderer start];
+    [_timer invalidate];
     NSSafeObject * safeObj = [[NSSafeObject alloc]initWithObject:self withSelector:@selector(autoSendBarrage)];
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:safeObj selector:@selector(excute) userInfo:nil repeats:YES];
 ```
