@@ -1,2 +1,0 @@
-## 5.5 小结
-本章为Android平台实现直播软件介绍了实现过程，同时也对Yasea、IJKplayer、Magicfilter、DanmakuFlameMaster等开源框架做了简单的说明。对于实现直播软件这些强大的开源框架为了奠定了良好的基础，在这里我们感谢这些框架开发者的无私奉献。看到这里如果你还没有能成功搭建一个自己的直播软件，那么你也可以看看我们提供的直播Demo，项目地址是https://gitee.com/kingkong2017_admin/TroilaLiveDemo.git 。当然这几个框架的功能远远不止这些，如果你想更深入的了解这些框架，也可以去GitHub上关注一下。

@@ -65,7 +65,7 @@
     * [5.4.4推流](chapter5/54/544tui-liu.md)
     * [5.4.5拉流](chapter5/54/545la-liu.md)
     * [5.4.6弹幕](chapter5/54/546dan-mu.md)
-  * [本章小结](55-xiao-jie.md)
+  * [本章小结](chapter5/ben-zhang-xiao-jie.md)
 * [第六章 iOS 解决方案](chapter6.md)
   * [6.1 iOS视频直播流程介绍](chapter6/61.md)
   * [6.2 SDK的选择和前期准备](chapter6/62.md)
